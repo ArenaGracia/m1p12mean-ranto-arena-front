@@ -1,0 +1,109 @@
+$btn-login-color: rgb(187, 46, 46);
+$btn-login-hover-color: rgb(231, 36, 36);
+$btn-text-color: white;
+
+
+header {
+    padding: 10px;
+}
+
+.logo {
+    width: 120px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.desktop-menu {
+    margin-top: 10px;
+
+    ul {
+        padding: 0;
+        margin: 0;
+
+        li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 18px;
+            margin-left: 26px;
+            transition: font-size 0.4s ease-in-out, color 0.4s ease-in-out;
+
+            &:hover {
+                cursor: pointer;
+                font-size: 19px;
+                font-weight: bold;
+                color: red;
+            }
+        }
+    }
+}
+
+.menu-icon {
+    display: none;
+}
+
+.btn-login, .btn-logout {
+    background-color: $btn-login-color;
+    color: $btn-text-color;
+    border: none;
+    padding: 8px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-left: 20px;
+}
+
+.btn-logout {
+    background-color: $btn-login-color;
+}
+
+.btn-login:hover {
+    background-color: $btn-login-hover-color;
+}
+
+.btn-logout:hover {
+    background-color: $btn-login-hover-color;
+}
+
+
+// Responsive Menu (Tablette & Mobile)
+@media screen and (min-width: 128px) and (max-width: 1024px) {
+    .desktop-menu {
+        position: fixed;
+        transition: 0.4s ease-in-out;
+        right: -280px;
+        top: 64px;
+        width: 280px;
+        height: 50%;
+        background-color: white;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+
+        ul{
+            li{
+                display: block;
+                text-align: left;
+                margin: 0;
+                padding: 10px 0 10px 26px;
+
+                button{
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    .menu-icon{
+        display: block;
+        color: red;
+        font-size: 30px;
+        padding-top: 0px;
+    }
+
+    .mobile-menu{
+        right: 0;
+        transition: 0.4s ease-in-out;
+    }
+}
