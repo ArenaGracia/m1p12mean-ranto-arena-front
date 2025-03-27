@@ -1,0 +1,37 @@
+<h2>{{title}}</h2>
+
+@if (!isLoading) {
+    @if (quotes.length > 0) {
+    <p-table [value]="quotes" [tableStyle]="{ 'min-width': '50rem' }" >
+        <ng-template  pTemplate="header">
+            <tr>
+                <th>Client</th>
+                <th>Prix</th>
+                <th>Date de rendez-vous</th>
+                <th>Nombre de prestation</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template  pTemplate="body" let-quoteItem>
+            <tr>
+                <td>{{ quoteItem.user.name }}</td>
+                <td>{{ quoteItem.totalPrice }}</td>
+                <td>{{ quoteItem.category }}</td>
+                <td>{{ quoteItem.quoteDetails.length }}</td>
+                <td><p-button label="Details" icon="pi pi-eye" severity="secondary" [routerLink]="['../details']"/></td>
+                <td><p-button label="Valider" icon="pi pi-check" severity="success"></p-button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <app-pagination
+        [totalRecords]="quotes.length"
+        [rows]="10"
+    >
+
+    </app-pagination>
+    } @else {
+        <app-message-block />
+    }
+} @else {
+  <app-loading-spinner [height]="'10cm'"/>
+}

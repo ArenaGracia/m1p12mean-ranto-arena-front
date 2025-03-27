@@ -1,0 +1,15 @@
+<p-card>
+    <h2>Liste des Prestations</h2>
+    <p-toolbar styleClass="mb-6">
+        <ng-template #start>
+        </ng-template>
+        <ng-template #end>
+            <p-button label="Ajouter" icon="pi pi-plus" class="mr-2" />
+        </ng-template>
+    </p-toolbar>
+    @if (isPrestationLoagin == true) {
+        <app-loading-spinner></app-loading-spinner>
+    } @else {
+        <app-prestation-list [prestations]="prestations"></app-prestation-list>
+    }
+</p-card>

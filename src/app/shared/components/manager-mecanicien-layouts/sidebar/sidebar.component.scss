@@ -1,0 +1,44 @@
+.sidebar {
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.8); /* Effet glassmorphism */
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.033);
+    position: fixed;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+/* Ajout de la classe pour masquer la sidebar */
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+::ng-deep .panelmenu {
+    border: none;
+}
+
+/* Bouton pour masquer/afficher */
+.sidebar-toggle {
+    position: absolute;
+    top: 1rem;
+    right: -40px;
+    width: 35px;
+    height: 35px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar-toggle:hover {
+    background: #f0f0f0;
+}
