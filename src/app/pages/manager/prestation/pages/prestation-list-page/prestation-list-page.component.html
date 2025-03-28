@@ -4,12 +4,32 @@
         <ng-template #start>
         </ng-template>
         <ng-template #end>
-            <p-button label="Ajouter" icon="pi pi-plus" class="mr-2" />
+            <p-button label="Ajouter" icon="pi pi-plus" class="mr-2" (click)="showPrestationFormDialog()" />
         </ng-template>
     </p-toolbar>
     @if (isPrestationLoagin == true) {
         <app-loading-spinner></app-loading-spinner>
     } @else {
-        <app-prestation-list [prestations]="prestations"></app-prestation-list>
+        <app-prestation-list [prestations]="prestations" [messageService]="messageService" [confirmationService]="confirmationService"></app-prestation-list>
     }
 </p-card>
+
+
+<p-confirmDialog>
+    <ng-template #message let-message>
+        <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700">
+            <i [ngClass]="message.icon" class="!text-6xl text-primary-500"></i>
+            <p>{{ message.message }}</p>
+        </div>
+    </ng-template>
+</p-confirmDialog>
+<p-toast></p-toast>
+
+
+<p-dialog [(visible)]="showPrestationForm" [style]="{ width: '500px' }" header="Prestation Details" [modal]="true">
+    <ng-template #content>
+        <app-prestation-form [prestation]="newPrestation"  [messageService]="this.messageService" [confirmationService]="confirmationService"></app-prestation-form>
+    </ng-template>
+</p-dialog>
+
+<p-toast />

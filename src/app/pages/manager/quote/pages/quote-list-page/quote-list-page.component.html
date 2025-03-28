@@ -1,4 +1,15 @@
 
-<p-card class="card">
-    <app-quote-list [title]="'Liste des Devis en attente de Validation'" [quotes]="quotes"></app-quote-list>
+<p-card>
+    @if (!isloading) {
+        <app-quote-list 
+            [title]="'Liste des Devis en attente de Validation'" 
+            [quotes]="quotes"
+            [messageService]="messageService"
+            [confirmationService]="confirmationService"
+        ></app-quote-list>
+    } @else {
+        <app-loading-spinner [height]="'15cm'"></app-loading-spinner>
+    }
 </p-card>
+
+<p-toast></p-toast>

@@ -8,6 +8,10 @@ import { ButtonModule } from 'primeng/button';
 import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import { RouterLink } from '@angular/router';
 import { LoadingSpinnerComponent } from '../../../../../shared/components/loading-spinner/loading-spinner.component';
+import { QuoteService } from '../../../../../core/service/quote.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-quote-list',
@@ -20,13 +24,52 @@ import { LoadingSpinnerComponent } from '../../../../../shared/components/loadin
     MessageBlockComponent,
     ButtonModule,
     PaginationComponent,
-    RouterLink
+    RouterLink,
+    ConfirmDialogModule,
+    TooltipModule
   ],
   templateUrl: './quote-list.component.html',
 })
 export class QuoteListComponent { 
-  @Input() quotes: Quote[] = [];
-  @Input() title: string = "Liste devis";
+    @Input() quotes: any[] = [];
+    @Input() title: string = "Liste devis";
+    @Input() messageService?: MessageService;
+    @Input() confirmationService?: ConfirmationService;
 
-  isLoading: boolean = false;
+    constructor(private quoteService: QuoteService) {}
+
+    ngOnInit() {
+        console.log(this.quotes);  
+    }
+
+    validateQuote (quoteId: string) {
+        this.quoteService.validateQuote(quoteId).subscribe({
+            next : () => {
+                this.messageService?.add({ severity: 'info', detail: 'Le Devis a été Validé', life: 3000 });
+            }
+        });
+    }
+
+    confirm(quoteId: string) {
+        this.confirmationService!.confirm({
+            header: 'Confirmation',
+            message: 'Confirmation de la validation du devis',
+            icon: 'pi pi-exclamation-circle',
+            rejectButtonProps: {
+                label: 'Annuler',
+                icon: 'pi pi-times',
+                outlined: true,
+                size: 'small'
+            },
+            acceptButtonProps: {
+                label: 'Valider',
+                icon: 'pi pi-check',
+                size: 'small'
+            },
+            accept: () => {
+                this.validateQuote(quoteId);
+            },
+            reject: () => { }
+        });
+    }
 }

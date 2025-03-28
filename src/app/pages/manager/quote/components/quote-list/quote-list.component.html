@@ -1,37 +1,44 @@
 <h2>{{title}}</h2>
 
-@if (!isLoading) {
     @if (quotes.length > 0) {
-    <p-table [value]="quotes" [tableStyle]="{ 'min-width': '50rem' }" >
-        <ng-template  pTemplate="header">
-            <tr>
-                <th>Client</th>
-                <th>Prix</th>
-                <th>Date de rendez-vous</th>
-                <th>Nombre de prestation</th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template  pTemplate="body" let-quoteItem>
-            <tr>
-                <td>{{ quoteItem.user.name }}</td>
-                <td>{{ quoteItem.totalPrice }}</td>
-                <td>{{ quoteItem.category }}</td>
-                <td>{{ quoteItem.quoteDetails.length }}</td>
-                <td><p-button label="Details" icon="pi pi-eye" severity="secondary" [routerLink]="['../details']"/></td>
-                <td><p-button label="Valider" icon="pi pi-check" severity="success"></p-button></td>
-            </tr>
-        </ng-template>
-    </p-table>
-    <app-pagination
-        [totalRecords]="quotes.length"
-        [rows]="10"
-    >
+        <p-table [value]="quotes" [tableStyle]="{ 'min-width': '50rem' }" >
+            <ng-template  pTemplate="header">
+                <tr>
+                    <th>Client</th>
+                    <th>Prix</th>
+                    <th>Date de rendez-vous</th>
+                    <th>Remise</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template  pTemplate="body" let-quoteItem>
+                <tr>
+                    <td>{{ quoteItem.appointment_id.user_id.name }} {{ quoteItem.appointment_id.user_id.first_name }}</td>
+                    <td>{{ quoteItem.total_price }}</td>
+                    <td>{{ quoteItem.appointment_id.time_start | date : "d MMMM yyyy HH:mm" }}</td>
+                    <td>{{ quoteItem.discount }}</td>
+                    <td>
+                        <p-button icon="pi pi-eye" [text]="true" severity="secondary" [routerLink]="'/manager/quote/details/' + quoteItem._id" class="mr-3"pTooltip="Details" tooltipPosition="top"/>
+                        <p-button label="Valider" icon="pi pi-check" severity="success" (onClick)="confirm(quoteItem._id)"  size="small"/>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <app-pagination
+            [totalRecords]="quotes.length"
+            [rows]="10"
+        >
 
-    </app-pagination>
+        </app-pagination>
     } @else {
         <app-message-block />
     }
-} @else {
-  <app-loading-spinner [height]="'10cm'"/>
-}
+
+<p-confirmDialog>
+    <ng-template #message let-message>
+        <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700">
+            <i [ngClass]="message.icon" class="!text-6xl text-primary-500"></i>
+            <p>{{ message.message }}</p>
+        </div>
+    </ng-template>
+</p-confirmDialog>

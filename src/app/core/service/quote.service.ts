@@ -8,13 +8,19 @@ import { Quote } from '../../shared/models/Quote';
   providedIn: 'root'
 })
 export class QuoteService {
-    private apiUrl = `${environment.apiUrl}/api/quote`;
+    private apiUrl = `${environment.apiUrl}/api/quotes`;
   
     constructor(private http: HttpClient) {}
 
-    getQuoteByState (stateValue: number): Observable<Quote[]> {
-        return this.http.get<Quote[]>(`${this.apiUrl}/state/${stateValue}`);
+    getQuoteByState (stateValue: number): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/state/${stateValue}`);
+    }
+
+    getQuoteById (id: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/${id}`);
     }
     
-    
+    validateQuote (quoteId: string): Observable<Quote> {
+        return this.http.put<Quote>(`${this.apiUrl}/validate/${quoteId}`, {});
+    }
 }  
