@@ -23,4 +23,8 @@ export class QuoteService {
     validateQuote (quoteId: string): Observable<Quote> {
         return this.http.put<Quote>(`${this.apiUrl}/validate/${quoteId}`, {});
     }
+    
+    updateDiscount (quoteId: string, discount: number): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/discount/${quoteId}`, {discount});
+    }
 }  
