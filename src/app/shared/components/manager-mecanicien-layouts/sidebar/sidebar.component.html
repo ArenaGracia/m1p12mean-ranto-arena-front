@@ -15,7 +15,7 @@
 <div class="sidebar">
   <p-menu [model]="items" class="flex justify-center" styleClass="w-full">
       <ng-template #submenuheader let-item>
-          <span class="text-primary font-bold">{{ item.label }}</span>
+          <span class="font-bold title">{{ item.label }}</span>
       </ng-template>
       <ng-template #item let-item>
           <a pRipple class="flex items-center p-menu-item-link" [routerLink]="item.url">

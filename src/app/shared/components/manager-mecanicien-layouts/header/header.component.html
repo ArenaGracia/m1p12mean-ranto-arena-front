@@ -19,11 +19,12 @@
                     [style]="{ width: '32px', height: '32px' }"
                 />
             </div> -->
-            <div class="user-profile">
+            <div class="user-profile mr-3">
                 <i class="pi pi-user"></i>
-                <span class="user-name">Jean Dupont</span>
-                <span class="user-role">Mécanicien</span>
+                <span class="user-name">{{user.name}} {{user.firstName}}</span>
+                <span class="user-role">{{user.role}}</span>
             </div>
+            <p-button icon="pi pi-sign-out" [rounded]="true" (onClick)="logOut()" />
         </ng-template>
     </p-toolbar>
 </div>
