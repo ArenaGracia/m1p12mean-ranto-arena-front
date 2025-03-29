@@ -16,6 +16,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { FloatLabel } from 'primeng/floatlabel';
+import { MontantPipe } from "../../../../../shared/pipes/montant.pipe";
 
 @Component({
   selector: 'app-quote-details',
@@ -26,16 +27,17 @@ import { FloatLabel } from 'primeng/floatlabel';
     RippleModule,
     CardModule,
     TableModule,
-	LoadingSpinnerComponent,
-	ConfirmDialog,
-	ToastModule,
+    LoadingSpinnerComponent,
+    ConfirmDialog,
+    ToastModule,
     DialogModule,
     InputTextModule,
     InputNumberModule,
     FormsModule,
     DatePicker,
-    FloatLabel
-  ],
+    FloatLabel,
+    MontantPipe
+],
   providers: [ MessageService, ConfirmationService],
   templateUrl: './quote-details.component.html'
 })

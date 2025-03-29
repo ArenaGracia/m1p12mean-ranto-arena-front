@@ -12,6 +12,7 @@ import { QuoteService } from '../../../../../core/service/quote.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { MontantPipe } from "../../../../../shared/pipes/montant.pipe";
 
 @Component({
   selector: 'app-quote-list',
@@ -26,8 +27,9 @@ import { TooltipModule } from 'primeng/tooltip';
     PaginationComponent,
     RouterLink,
     ConfirmDialogModule,
-    TooltipModule
-  ],
+    TooltipModule,
+    MontantPipe
+],
   templateUrl: './quote-list.component.html',
 })
 export class QuoteListComponent { 

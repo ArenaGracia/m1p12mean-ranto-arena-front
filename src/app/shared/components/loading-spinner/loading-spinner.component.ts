@@ -10,7 +10,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ProgressSpinnerModule
   ],
   template: `
-    <div class="flex align-items-center justify-content-center flex-column">
+    <div class="flex align-items-center justify-content-center flex-column" [ngStyle]="{ height: height }">
       <span class="loader mb-3"></span>
       <div class="text-xl">Chargement</div>
     </div>
@@ -19,4 +19,5 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 })
 export class LoadingSpinnerComponent { 
   @Input() height: string = '5 cm'; 
+  @Input() class: string = '';
 }

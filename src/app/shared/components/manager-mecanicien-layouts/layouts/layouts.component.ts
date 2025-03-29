@@ -3,7 +3,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FooterComponent } from '../../footer/footer.component';
-import { RouterModule } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
+import { LoadingSpinnerComponent } from '../../loading-spinner/loading-spinner.component';
+import { LayoutService } from '../layout.service';
 
 @Component({
   selector: 'app-layouts',
@@ -17,8 +19,9 @@ import { RouterModule } from '@angular/router';
 export class LayoutsComponent {
   isSidebarHidden = false;
 
-  toggleSidebar() {
-    this.isSidebarHidden = !this.isSidebarHidden;
+  constructor(private layoutService: LayoutService) {
+    this.layoutService.sidebarHidden$.subscribe(
+      hidden => this.isSidebarHidden = hidden
+    );
   }
-
 }

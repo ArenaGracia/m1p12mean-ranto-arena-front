@@ -3,8 +3,12 @@
         <ng-template #start>
             <div class="flex items-center gap-2">
               <!-- <button pButton icon="pi pi-bars" (click)="toggleSidebar.emit()" class="toggle-btn"></button> -->
+                <p-button (click)="toggleSidebar()" class="toggle-button mr-4" severity="secondary">
+                    ☰
+                </p-button>
                 <img src="assets/images/car-logo.jpg" alt="logo" style="width: 6rem; margin-left: 1rem">
                 <p class="garage-text">Garage</p>
+                
                 <!-- <p-button label="Files" text plain />
                 <p-button label="Edit" text plain />
                 <p-button label="View" text plain /> -->
@@ -12,19 +16,12 @@
         </ng-template>
 
         <ng-template #end>
-            <!-- <div class="flex items-center gap-2">
-                <p-button label="Share" severity="contrast" size="small" />
-                <p-avatar
-                    image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                    [style]="{ width: '32px', height: '32px' }"
-                />
-            </div> -->
             <div class="user-profile mr-3">
                 <i class="pi pi-user"></i>
                 <span class="user-name">{{user.name}} {{user.firstName}}</span>
-                <span class="user-role">{{user.role}}</span>
+                <span class="user-role">{{user.profile}}</span>
             </div>
-            <p-button icon="pi pi-sign-out" [rounded]="true" (onClick)="logOut()" />
+            <p-button icon="pi pi-sign-out" [rounded]="true" (onClick)="logOut()" pTooltip="Déconnecter" tooltipPosition="left"/>
         </ng-template>
     </p-toolbar>
 </div>
