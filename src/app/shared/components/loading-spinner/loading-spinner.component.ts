@@ -10,13 +10,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ProgressSpinnerModule
   ],
   template: `
-    <div class="flex flex-wrap align-items-center justify-content-center" [ngStyle]="{ height: height }">
-      <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" 
-        [style]="{ width: '50px', height: '50px' }" >
-      </p-progress-spinner>
+    <div class="flex align-items-center justify-content-center flex-column" [ngStyle]="{ height: height }">
+      <span class="loader mb-3"></span>
+      <div class="text-xl">Chargement</div>
     </div>
   `,
+  styleUrl: 'loading-spinner.component.scss',
 })
 export class LoadingSpinnerComponent { 
   @Input() height: string = '5 cm'; 
+  @Input() class: string = '';
 }

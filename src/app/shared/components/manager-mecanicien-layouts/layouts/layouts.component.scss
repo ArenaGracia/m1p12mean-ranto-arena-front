@@ -23,6 +23,7 @@
         // overflow-y: hidden;
         // overflow-x: hidden;
         padding: 30px;
+        transition: margin-left 0.3s ease;
     }
   
     .sidebar-hidden app-sidebar {
@@ -34,4 +35,28 @@
       }
 }
 
+.layout-body {
+    display: flex;
+  }
   
+  app-sidebar {
+    width: 250px;
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar-hidden app-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .layout-main-container {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+  }
+
+  .layout-wrapper {
+  &.sidebar-hidden {
+    .layout-main-container {
+      margin-left: -250px;
+    }
+  }
+}

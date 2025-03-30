@@ -4,11 +4,14 @@ import { NotfoundComponent } from './shared/components/notfound/notfound.compone
 import { ErrorComponent } from './shared/components/error/error.component';
 import { LoginComponent } from './pages/manager/login/login.component';
 import { LayoutComponent } from './shared/components/client-layout/layout/layout.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
         path: 'manager',
         component: LayoutsComponent,
+        canActivate: [AuthGuard],
+        data: { profile: 'Manager' },
         loadChildren: () => import('./pages/manager/manager.routes')
     },
     {

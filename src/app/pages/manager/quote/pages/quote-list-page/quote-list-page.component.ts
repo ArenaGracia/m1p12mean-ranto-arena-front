@@ -9,6 +9,10 @@ import { ButtonModule } from 'primeng/button';
 import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import { RouterLink } from '@angular/router';
 import { QuoteListComponent } from '../../components/quote-list/quote-list.component';
+import { QuoteService } from '../../../../../core/service/quote.service';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
     selector: 'app-quote-list-page',
@@ -18,88 +22,29 @@ import { QuoteListComponent } from '../../components/quote-list/quote-list.compo
         TableModule,
         CardModule,
         ButtonModule,
-        QuoteListComponent
+        QuoteListComponent,
+        ToastModule,
+        ConfirmDialogModule,
+        LoadingSpinnerComponent
     ],
+    providers: [ MessageService, ConfirmationService ],
     templateUrl: './quote-list-page.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteListPageComponent { 
-    quotes: Quote[] = [
-        {
-        id: '',
-        user: {
-            id:'1', 
-            name:'Ranto', 
-            firstName:'jeremie', 
-            email:'ranto@gmail.com', 
-            password:'', 
-            contact:"033 32 033 73", 
-            profile: {
-            id:'1', 
-            name:'client'
+    quotes: any[] = [];
+    constructor(private quoteService: QuoteService, public messageService: MessageService, public confirmationService: ConfirmationService) {}
+    isloading: boolean = true;
+
+    ngOnInit () {
+        this.quoteService.getQuoteByState(1).subscribe({
+            next: (data) => {
+                this.quotes = data;
+                this.isloading = false;
             },
-            cars: []
-        },
-        totalPrice: 12,
-        state: {
-            id: '',
-            name: 'Non validé',
-            value: 0,
-            severity: 'danger'
-        },
-        discount: 0,
-        quoteDetails: []
-        },
-        {
-        id: '',
-        user: {
-            id:'1', 
-            name:'Ramaro', 
-            firstName:'Tiana', 
-            email:'ranto@gmail.com', 
-            password:'', 
-            contact:"033 32 033 73", 
-            profile: {
-            id:'1', 
-            name:'client'
-            },
-            cars: []
-        },
-        totalPrice: 12,
-        state: {
-            id: '',
-            name: 'Non validé',
-            value: 0,
-            severity: 'danger'
-        },
-        discount: 0,
-        quoteDetails: []
-        },
-        {
-        id: '',
-        user: {
-            id:'1', 
-            name:'Mamy', 
-            firstName:'Niaina', 
-            email:'ranto@gmail.com', 
-            password:'', 
-            contact:"033 32 033 73", 
-            profile: {
-            id:'1', 
-            name:'client'
-            },
-            cars: []
-        },
-        totalPrice: 12,
-        state: {
-            id: '',
-            name: 'Non validé',
-            value: 0,
-            severity: 'danger'
-        },
-        discount: 0,
-        quoteDetails: []
-        },
-    ];
-    
+            error: (error) => {
+                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la récuperation des devis ' + error.error.message });
+                this.isloading = false;
+            }
+        });
+    }
 }

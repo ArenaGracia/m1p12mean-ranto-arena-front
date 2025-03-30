@@ -1,10 +1,10 @@
 import { Category } from "./Category";
 
 export class Prestation {
-  id: string = "";
+  _id: string = "";
   name: string = "";
   description: string = "";
-  image?: File;
+  image?: string;
   category: Category;
 
   constructor(parameters: Partial<Prestation> = {}) {

@@ -9,11 +9,24 @@ import { Quote } from '../../shared/models/Quote';
   providedIn: 'root'
 })
 export class PrestationService {
-    private apiUrl = `${environment.apiUrl}/api/prestation`;
+    private apiUrl = `${environment.apiUrl}/api/prestations`;
   
     constructor(private http: HttpClient) {}
 
     getAllPrestations (): Observable<Prestation[]> {
         return this.http.get<Prestation[]>(`${this.apiUrl}`);
     } 
+      
+    createPrestation(prestation: Prestation): Observable<Prestation> {
+        return this.http.post<Prestation>(this.apiUrl, prestation);
+    }
+
+    updatePrestation(id: string, prestation: Prestation): Observable<Prestation> {
+        return this.http.put<Prestation>(`${this.apiUrl}/${id}`, prestation);
+    }
+
+    deletePrestation(id: string): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/${id}`);
+    }
+
 }
