@@ -26,7 +26,6 @@ import { MessageModule } from 'primeng/message';
         CardModule,
         ReactiveFormsModule,
         FormsModule,
-        RouterLink,
         MessageModule
     ],
     templateUrl: './login.component.html',

@@ -42,16 +42,18 @@ export class PrestationFormComponent {
     isUpdating: boolean = false;
     newFileSelected: boolean = false;
     selectedFile: File | null = null;
-imageBase64: string = '';
+    imageBase64: string = '';
 
     constructor(private categoryService: CategoryService, private prestationService: PrestationService) {}
 
     ngOnInit() {
         this.categoryService.getCategories().subscribe({
-            next: (data) => {
+            next: (data:Category[]) => {
                 this.categories = data;
+                this.prestation.category = this.categories.find(cat => cat._id === this.prestation.category._id) || new Category(this.prestation.category);
             },
         });
+
         this.isUpdating = (this.prestation._id) ? true : false;
     }
 
@@ -76,6 +78,7 @@ imageBase64: string = '';
             rejectButtonStyleClass:"p-button-text",
             accept: () => {
                 this.savePrestation();
+                this.confirmationService.close();
             },
             reject: () => {
             }
@@ -84,6 +87,10 @@ imageBase64: string = '';
 
     savePrestation () {
         if (this.isUpdating) {
+            console.log("Updating the prestation");
+            if (this.imageBase64) {
+                this.prestation.image = this.imageBase64;
+            }
             this.prestationService.updatePrestation(this.prestation._id, this.prestation).subscribe({
                 next : (prestation) => {
                     this.onSave.emit(prestation);
@@ -91,7 +98,7 @@ imageBase64: string = '';
                 }, error: (error) => {
                     console.log(error.message);
                     
-                    this.messageService.add({ severity: 'danger', detail: 'Une erreur est survenue lors de la mise à jour :' + error.error, life: 3000 });
+                    this.messageService.add({ severity: 'danger', detail: 'Une erreur est survenue lors de la mise à jour :' + error.error.message, life: 3000 });
                 }
             });
         } else {
@@ -100,7 +107,7 @@ imageBase64: string = '';
                     this.onSave.emit(prestation);
                     this.messageService.add({ severity: 'info', detail: 'La prestation a été enregistrée', life: 3000 });
                 }, error: (error) => {
-                    this.messageService.add({ severity: 'danger', detail: 'Une erreur est survenue lors de l\'enregistrement :' + error.error, life: 3000 });
+                    this.messageService.add({ severity: 'danger', detail: 'Une erreur est survenue lors de l\'enregistrement :' + error.error.message, life: 3000 });
                 }
             });
         }

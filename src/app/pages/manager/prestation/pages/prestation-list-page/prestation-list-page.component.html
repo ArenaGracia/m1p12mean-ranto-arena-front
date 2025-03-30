@@ -10,7 +10,11 @@
     @if (isPrestationLoagin == true) {
         <app-loading-spinner></app-loading-spinner>
     } @else {
-        <app-prestation-list [prestations]="prestations" [messageService]="messageService" [confirmationService]="confirmationService"></app-prestation-list>
+        <app-prestation-list 
+            [prestations]="prestations" 
+            [messageService]="messageService" 
+            [confirmationService]="confirmationService">
+        </app-prestation-list>
     }
 </p-card>
 

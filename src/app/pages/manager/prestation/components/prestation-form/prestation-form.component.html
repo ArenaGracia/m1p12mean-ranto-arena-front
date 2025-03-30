@@ -16,12 +16,12 @@
       <div class="grid grid-cols-12 gap-4 mt-4">
         <div *ngFor="let category of categories" class="flex items-center gap-2 col-span-6">
           <p-radiobutton
-            [inputId]="'category' + category.id"
+            [inputId]="'category' + category._id"
             name="category"
             [value]="category"
             [(ngModel)]="prestation.category"
           ></p-radiobutton>
-          <label [for]="'category' + category.id">{{ category.name }}</label>
+          <label [for]="'category' + category._id">{{ category.name }}</label>
         </div>
       </div>
   </div>
