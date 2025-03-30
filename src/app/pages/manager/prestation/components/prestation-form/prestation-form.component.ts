@@ -42,7 +42,7 @@ export class PrestationFormComponent {
     isUpdating: boolean = false;
     newFileSelected: boolean = false;
     selectedFile: File | null = null;
-imageBase64: string = '';
+    imageBase64: string = '';
 
     constructor(private categoryService: CategoryService, private prestationService: PrestationService) {}
 

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mon-projet-angular": {
+    "mean-project": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/mon-projet-angular",
+            "outputPath": "dist/mean-project",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -30,8 +30,7 @@
                 "glob": "**/*",
                 "input": "public"
               }, 
-              "src/assets",
-              "src/_redirects"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss",
@@ -39,7 +38,9 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -69,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "mon-projet-angular:build:production"
+              "buildTarget": "mean-project:build:production"
             },
             "development": {
-              "buildTarget": "mon-projet-angular:build:development"
+              "buildTarget": "mean-project:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -11,17 +11,17 @@ export function getMenuItems(navbarComponent: NavbarComponent): MenuItem[] {
     {
       label: "Accueil",
       icon: "fas fa-home",
-      command: () => navbarComponent.navigateTo("/home")
+      command: () => navbarComponent.navigateTo("/client")
     },
     {
       label: "Prestation",
       icon: "fas fa-cogs",
-      command: () => navbarComponent.navigateTo("/prestation")
+      command: () => navbarComponent.navigateTo("/client/prestation")
     },
     {
       label: "Contact",
       icon: "fas fa-envelope",
-      command: () => navbarComponent.navigateTo("/contact")
+      command: () => navbarComponent.navigateTo("/client/contact")
     }
   ];
 }
