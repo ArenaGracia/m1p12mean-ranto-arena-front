@@ -8,14 +8,9 @@ export class MontantPipe implements PipeTransform {
 
   transform(value: number | string): string {
     if (value === null || value === undefined) return '';
-
-    let montantStr = value.toString().replace(/\s+/g, ''); // enlever espaces
-
-    if (isNaN(Number(montantStr))) return value.toString(); // vérifier si c'est un nombre
-
-    // Formatage avec des espaces tous les 3 chiffres (de droite à gauche)
+    let montantStr = value.toString().replace(/\s+/g, '');
+    if (isNaN(Number(montantStr))) return value.toString();
     const formatted = montantStr.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-
     return `${formatted} Ar`;
   }
 
