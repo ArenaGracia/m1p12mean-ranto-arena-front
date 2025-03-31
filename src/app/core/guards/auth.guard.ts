@@ -11,7 +11,14 @@ export class AuthGuard implements CanActivate {
         if (!token) {
             console.log("TOKEN non present, redirection vers login");
             
-            this.router.navigate(['/login']);
+            let expectedRole = route.data['profile'];
+            let profileRoute = expectedRole
+                .toLowerCase()  
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+
+            this.router.navigate(['/'+profileRoute+'/login']);
             return false;
         }
 
@@ -25,5 +32,5 @@ export class AuthGuard implements CanActivate {
             return false;
         }
         return true;
-    }
+  }
 }
