@@ -28,15 +28,15 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         LoadingSpinnerComponent
     ],
     providers: [ MessageService, ConfirmationService ],
-    templateUrl: './quote-list-page.component.html',
+    templateUrl: './quote-list-validation-page.component.html',
 })
-export class QuoteListPageComponent { 
+export class QuoteListValidationPageComponent { 
     quotes: any[] = [];
     constructor(private quoteService: QuoteService, public messageService: MessageService, public confirmationService: ConfirmationService) {}
     isloading: boolean = true;
 
     ngOnInit () {
-        this.quoteService.getQuotes().subscribe({
+        this.quoteService.getQuoteByState(1).subscribe({
             next: (data) => {
                 this.quotes = data;
                 this.isloading = false;

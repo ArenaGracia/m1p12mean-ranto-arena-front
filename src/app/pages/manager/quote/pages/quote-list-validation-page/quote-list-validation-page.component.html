@@ -2,11 +2,11 @@
 <p-card>
     @if (!isloading) {
         <app-quote-list 
-            [title]="'Liste des Devis'" 
+            [title]="'Liste des Devis en attente de Validation'" 
             [quotes]="quotes"
             [messageService]="messageService"
             [confirmationService]="confirmationService"
-            [showValidationButton]="false"
+            [showValidationButton]="true"
         ></app-quote-list>
     } @else {
         <app-loading-spinner [height]="'15cm'"></app-loading-spinner>

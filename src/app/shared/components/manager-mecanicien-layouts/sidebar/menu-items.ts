@@ -6,9 +6,14 @@ import { MenuItem } from "primeng/api";
         label: 'Devis',
         items: [
             {
-                label: 'Liste des Devis',
+                label: 'Liste',
                 icon: 'pi pi-list',
                 url: '/manager/quote/list',
+            },
+            {
+                label: 'A valider',
+                icon: 'pi pi-list',
+                url: '/manager/quote/list/validation',
             },
         ]
     },

@@ -18,6 +18,7 @@ import { DatePicker } from 'primeng/datepicker';
 import { FloatLabel } from 'primeng/floatlabel';
 import { MontantPipe } from "../../../../../shared/pipes/montant.pipe";
 import { EmailService } from '../../../../../core/service/email.service';
+import { QuoteDetailsListComponent } from '../../components/quote-details-list/quote-details-list.component';
 
 @Component({
   selector: 'app-quote-details',
@@ -37,22 +38,13 @@ import { EmailService } from '../../../../../core/service/email.service';
     FormsModule,
     DatePicker,
     FloatLabel,
-    MontantPipe
+    MontantPipe,
+    QuoteDetailsListComponent
 ],
   providers: [ MessageService, ConfirmationService],
   templateUrl: './quote-details.component.html'
 })
 export class QuoteDetailsComponent { 
-    prestations: any[] = [
-        {
-            name: 'Vidange',
-            prix: 100
-        },
-        {
-            name: 'Réparation pneu',
-            prix: 200
-        }
-    ];
 	quote: any;
 	isLoading: boolean = true;
     addDiscountVisible: boolean = false;

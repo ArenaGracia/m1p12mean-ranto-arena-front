@@ -37,6 +37,7 @@ export class QuoteListComponent {
     @Input() title: string = "Liste devis";
     @Input() messageService?: MessageService;
     @Input() confirmationService?: ConfirmationService;
+    @Input() showValidationButton: boolean = false;
 
     constructor(private quoteService: QuoteService) {}
 
@@ -52,10 +53,18 @@ export class QuoteListComponent {
         });
     }
 
-    confirm(quoteId: string) {
+    cancelQuote (quoteId: string) { 
+        this.quoteService.cancelQuote(quoteId).subscribe({
+            next : () => {
+                this.messageService?.add({ severity: 'info', detail: 'Le Devis a été annulé', life: 3000 });
+            }
+        });
+    }
+
+    confirm(quoteId: string, type: string) {
         this.confirmationService!.confirm({
             header: 'Confirmation',
-            message: 'Confirmation de la validation du devis',
+            message: 'Voulez-vous '+type+' le devis?',
             icon: 'pi pi-exclamation-circle',
             rejectButtonProps: {
                 label: 'Annuler',
@@ -69,7 +78,11 @@ export class QuoteListComponent {
                 size: 'small'
             },
             accept: () => {
-                this.validateQuote(quoteId);
+                if (type == 'valider') {
+                    this.validateQuote(quoteId);
+                } else if (type == 'annuler') {
+                    this.cancelQuote(quoteId);
+                }
             },
             reject: () => { }
         });

@@ -8,8 +8,7 @@ import { TaskListComponent } from "./task/pages/task-list/task-list.component";
 export default [
     { path: '', redirectTo: '/manager/login', pathMatch: "full"},
     { path: 'empty', component: EmptyComponent},
-    { path: 'quote/list', component: QuoteListPageComponent},
-    { path: 'quote/details/:id', component: QuoteDetailsComponent},
+    { path: 'quote',  loadChildren: () => import('./quote/quote.routes') },
     { path: 'prestation',  loadChildren: () => import('./prestation/prestation.routes') },
     { path: 'task/list', component: TaskListComponent},
 ] as Routes;

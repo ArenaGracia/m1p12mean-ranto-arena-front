@@ -12,6 +12,10 @@ export class QuoteService {
   
     constructor(private http: HttpClient) {}
 
+    getQuotes (): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/`);
+    }
+
     getQuoteByState (stateValue: number): Observable<any[]> {
         return this.http.get<any[]>(`${this.apiUrl}/state/${stateValue}`);
     }
@@ -22,6 +26,10 @@ export class QuoteService {
     
     validateQuote (quoteId: string): Observable<Quote> {
         return this.http.put<Quote>(`${this.apiUrl}/validate/${quoteId}`, {});
+    }
+    
+    cancelQuote (quoteId: string): Observable<Quote> {
+        return this.http.put<Quote>(`${this.apiUrl}/decline/${quoteId}`, {});
     }
     
     updateDiscount (quoteId: string, discount: number): Observable<any> {
