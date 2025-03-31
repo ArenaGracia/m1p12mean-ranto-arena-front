@@ -21,7 +21,7 @@ export function getMenuItems(navbarComponent: NavbarComponent): MenuItem[] {
     {
       label: "Contact",
       icon: "fas fa-envelope",
-      command: () => navbarComponent.navigateTo("/client/contact")
+      command: () => navbarComponent.navigateTo("/client/login")
     }
   ];
 }
