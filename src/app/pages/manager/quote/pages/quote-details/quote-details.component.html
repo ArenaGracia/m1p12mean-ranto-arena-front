@@ -6,13 +6,17 @@
                 <div class="flex align-items-center text-700 flex-wrap">
                     <div class="mr-5 flex align-items-center mt-3">
                         <i class="pi pi-user mr-2"></i>
-                        <span>{{quote.appointment_id.user_id.first_name}} {{quote.appointment_id.user_id.name}}</span>
+                        <span>{{quote.appointment.user.first_name}} {{quote.appointment.user.name}}</span>
+                    </div>
+                    <div class="mr-5 flex align-items-center mt-3">
+                        <i class="pi pi-envelope mr-2"></i>
+                        <span>{{quote.appointment.user.email}}</span>
                     </div>
                     <div class="mr-5 flex align-items-center mt-3">
                         <i class="pi pi-clock mr-2"></i>
                         <span>
-                            de {{quote.appointment_id.time_start | date : "d MMMM yyyy HH:mm" }} 
-                            à {{quote.appointment_id.time_end | date : "d MMMM yyyy HH:mm" }} 
+                            de {{quote.appointment.time_start | date : "d MMMM yyyy HH:mm" }} 
+                            à {{quote.appointment.time_end | date : "d MMMM yyyy HH:mm" }} 
                         </span>
                     </div>
                     <div *ngIf="quote.discount != 0" class="flex align-items-center mt-3">
@@ -70,12 +74,12 @@
 <p-dialog header="Suggérer une nouvelle date de Rendez-vous" [modal]="true" [(visible)]="showUpdateDate" [style]="{ width: '25rem' }">
     <span class="p-text-secondary block mb-3">Un email sera envoyé au client pour qu'il puisse valider.</span>
     <p-floatlabel variant="on" class="mb-4">
-        <p-datepicker [(ngModel)]="this.quote.appointment_id.time_start" [showTime]="true" [hourFormat]="'24'" inputId="on_label" showIcon iconDisplay="input" appendTo="body" />
+        <p-datepicker [(ngModel)]="this.newDate" [showTime]="true" [hourFormat]="'24'" inputId="on_label" showIcon iconDisplay="input" appendTo="body" />
         <label for="on_label">Nouvelle Date</label>
     </p-floatlabel>
     <div class="flex justify-end gap-2">
         <p-button label="Annuler" severity="secondary" (click)="showUpdateDate = false" />
-        <p-button label="Enregistrer" [disabled]="(discount == 0)" (click)="confirm('newDate')" />
+        <p-button label="Enregistrer" [disabled]="(this.quote.appointment.time_start == this.newDate)" (click)="confirm('newDate')" />
     </div>
 </p-dialog>
 

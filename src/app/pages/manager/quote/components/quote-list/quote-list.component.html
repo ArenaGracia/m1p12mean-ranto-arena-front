@@ -13,9 +13,9 @@
             </ng-template>
             <ng-template  pTemplate="body" let-quoteItem>
                 <tr>
-                    <td>{{ quoteItem.appointment_id.user_id.name }} {{ quoteItem.appointment_id.user_id.first_name }}</td>
+                    <td>{{ quoteItem.appointment.user.name }} {{ quoteItem.appointment.user.first_name }}</td>
                     <td>{{ quoteItem.total_price | montant }}</td>
-                    <td>{{ quoteItem.appointment_id.time_start | date : "d MMMM yyyy HH:mm" }}</td>
+                    <td>{{ quoteItem.appointment.time_start | date : "d MMMM yyyy HH:mm" }}</td>
                     <td>{{ quoteItem.discount }}</td>
                     <td>
                         <p-button icon="pi pi-eye" [text]="true" severity="secondary" [routerLink]="'/manager/quote/details/' + quoteItem._id" class="mr-3"pTooltip="Details" tooltipPosition="top"/>
