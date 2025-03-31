@@ -22,7 +22,8 @@ export class NavbarComponent {
   }
 
   login() {
-    this.isLoggedIn = true;
+    this.router.navigate(['/client/login']);
+    // this.isLoggedIn = true;
   }
 
   logout() {
@@ -44,4 +45,5 @@ export class NavbarComponent {
     this.router.navigate([route]);
     this.closeMenu();
   }
+  
 }
