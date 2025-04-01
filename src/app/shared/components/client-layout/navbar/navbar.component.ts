@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { getMenuItems, MenuItem } from './menu-items';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../core/service/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,20 +15,34 @@ export class NavbarComponent {
   menuValue: boolean = false;
   menu_icon: string = "bi bi-list";
   items: MenuItem[] = [];
+  isLoggedIn = false;
 
-  isLoggedIn = false; // Supposons que l'utilisateur est déconnecté au début
 
-  constructor(private router: Router) {
-    this.items = getMenuItems(this); 
+  constructor(
+    private router: Router,
+    private authService : AuthService
+  ) {}
+
+  ngOnInit() {
+    this.updateMenu();
   }
+
+  updateMenu() {
+    this.isLoggedIn = this.authService.isLoggedRight("Client"); 
+    this.items = getMenuItems(this, this.isLoggedIn);
+  }
+
+  
 
   login() {
     this.router.navigate(['/client/login']);
-    // this.isLoggedIn = true;
   }
 
   logout() {
-    this.isLoggedIn = false;
+    this.isLoggedIn = !this.isLoggedIn;
+    this.authService.logout();
+    this.updateMenu();
+    this.closeMenu();
     this.router.navigate(['/client/accueil']); 
   }
 

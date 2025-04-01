@@ -46,7 +46,7 @@ export class LoginClientComponent {
       this.auth.login(email, mdp).subscribe({
           next: (res) => {
             this.auth.saveToken(res.token);
-            this.router.navigate(['/client/accueil']);
+            this.router.navigate(['/client/quote']);
           },
           error: (err) => {
               this.errorMessage = err.error.message;
