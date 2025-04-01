@@ -12,10 +12,26 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
-  getAllTasks(page: number, size:number): Observable<any> {
+  getAllTasks(page: number, size:number, filters: any): Observable<any> {
     let httpParams = new HttpParams();
     httpParams = httpParams.set("page", page);
     httpParams = httpParams.set("size", size);
+    Object.keys(filters).forEach(key => {
+      if (filters[key]) {
+          httpParams = httpParams.set(key, filters[key]);
+      }
+    });
     return this.http.get<any[]>(`${this.apiUrl}/`, { params: httpParams });
   } 
+
+  getNonAffectedTasks(page: number, size:number): Observable<any> {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.set("page", page);
+    httpParams = httpParams.set("size", size);
+    return this.http.get<any[]>(`${this.apiUrl}/non-affected`, { params: httpParams });
+  } 
+
+  affect(taskId: string, userId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/affect/`, {taskId, userId});
+  }
 }

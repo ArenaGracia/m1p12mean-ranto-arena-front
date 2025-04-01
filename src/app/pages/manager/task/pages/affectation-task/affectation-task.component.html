@@ -1,8 +1,19 @@
 
 <p-card>
-  <app-task-list
-      [titre]="'Suivie des tâches'"
-      [tasks]="tasks"
-      [affectation]="true"
-  ></app-task-list>
+  @if(!isLoading) {
+    <app-task-list
+        [titre]="'Affectation des tâches'"
+        [tasks]="tasks"
+        [affectation]="true"
+        [messageService]="messageService"
+        [confirmationService]="confirmationService"
+    
+    ></app-task-list>
+  } @else {
+    <app-loading-spinner [height]="'15cm'"></app-loading-spinner>
+  }
 </p-card>
+
+<p-toast />
+
+<p-confirmdialog />

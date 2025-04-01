@@ -19,6 +19,7 @@ export class TaskListPageComponent {
     tasks: Task[] = [];
     first = 0;
     rows = 10;
+    filters: any = {};
 
     constructor(private taskService: TaskService) {}
 
@@ -27,7 +28,7 @@ export class TaskListPageComponent {
     }
 
     getTasks() {
-        this.taskService.getAllTasks(this.first, this.rows).subscribe({
+        this.taskService.getAllTasks(this.first, this.rows, this.filters).subscribe({
             next: (tasks: any) => {
                 this.tasks = tasks;
             },
@@ -37,6 +38,7 @@ export class TaskListPageComponent {
         });
     }
 
+    // Si on détecte du changement dans la composant pagination
     onPaginationChange(event: { first: number; rows: number }) {
         this.first = event.first;
         this.rows = event.rows;
@@ -44,4 +46,11 @@ export class TaskListPageComponent {
         this.getTasks();
       }
 
+    // Si on détecte du changement dadns les filtres
+    onFiltersChanged(newFilters: any) {
+        this.filters = newFilters;
+        console.log('Filtre mise à jour:', this.filters);
+        this.first = 0; 
+        this.getTasks();
+    }
 }
