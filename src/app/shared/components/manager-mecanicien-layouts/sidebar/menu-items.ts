@@ -12,7 +12,7 @@ import { MenuItem } from "primeng/api";
             },
             {
                 label: 'A valider',
-                icon: 'pi pi-list',
+                icon: 'pi pi-list-check',
                 url: '/manager/quote/list/validation',
             },
         ]
@@ -22,12 +22,12 @@ import { MenuItem } from "primeng/api";
         items: [
             {
                 label: 'Affectation',
-                icon: 'pi pi-chart-line',
-                url: '',
+                icon: 'pi pi-user-edit',
+                url: '/manager/task/affectation',
             },
             {
                 label: 'Suivi',
-                icon: 'pi pi-list',
+                icon: 'pi pi-check-square',
                 url: '/manager/task/list',
             }
         ]

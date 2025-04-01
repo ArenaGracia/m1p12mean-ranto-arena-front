@@ -26,9 +26,9 @@
                 </div>
             </div>
             <div class="mt-3 lg:mt-0" *ngIf="quote?.quote_state?.value == 1">
-                <button pButton pRipple [label]="quote?.discount != 0 ? 'Modifier Remise' : 'Ajouter Remise'"  class="p-button-outlined mr-2" [icon]="quote?.discount != 0 ? 'pi pi-pencil' : 'pi pi-plus'" (click)="addDiscountVisible = true"></button>
+                <button pButton pRipple [label]="quote?.discount != 0 ? 'Modifier Remise' : 'Ajouter Remise'"  class="p-button-outlined mr-2" [icon]="quote?.discount != 0 ? 'pi pi-pencil' : 'pi pi-plus'" (click)="addDiscountVisible = true" ></button>
                 <button pButton pRipple label="Suggérer une autre Date" class="p-button-outlined mr-2" icon="pi pi-clock" (click)="showUpdateDate =true"></button>
-                <button pButton pRipple label="Valider" icon="pi pi-check" (click)="confirm('validation')"></button>
+                <button pButton pRipple label="Valider" icon="pi pi-check" (click)="confirm('validation')" [raised]="true" ></button>
             </div>
         </div>
     </p-card>

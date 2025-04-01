@@ -1,0 +1,39 @@
+<h2>{{titre}}</h2>
+
+<p-table [value]="tasks">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Prestation</th>
+            <th>Description</th>
+            <th>Marque</th>
+            <th>Date debut</th>
+            <th>Durée</th>
+            @if (affectation) {
+                <th>Affectation</th>
+            } @else {
+                <th>Mécanicien</th>
+                <th>Etat</th>
+            }
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+        <tr>
+            <td>{{ task.prestation_brand.prestation.name }}</td>
+            <td>{{ task.prestation_brand.prestation.description }}</td>
+            <td>{{ task.prestation_brand.brand.name }}</td>
+            <td>{{ task.date_start | date : "d MMMM yyyy HH:mm" }}</td>
+            <td>{{ task.prestation_brand.duration }} minutes</td>
+            @if (affectation && !task.user) {
+                <td><p-button label="Affecter" [raised]="true"  size="small" /></td>
+            } @else if (!affectation) {
+                <td>{{ task.user?.firstName }}</td>
+                <td>{{ task.state.name }}</td>
+            }
+        </tr>
+    </ng-template>
+</p-table>
+
+<app-pagination
+    [totalRecords]="tasks.length"
+    [rows]="rows" (pageChange)="onChildPageChange($event)"
+></app-pagination>
