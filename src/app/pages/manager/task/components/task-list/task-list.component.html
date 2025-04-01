@@ -1,39 +1,89 @@
 <h2>{{titre}}</h2>
 
 <p-table [value]="tasks">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Prestation</th>
-            <th>Description</th>
-            <th>Marque</th>
-            <th>Date debut</th>
-            <th>Durée</th>
-            @if (affectation) {
-                <th>Affectation</th>
+    <ng-template pTemplate="caption" *ngIf="!affectation">
+            <div class="flex gap-3">
+                <p-floatlabel variant="on" class="w-full">
+                    <p-select inputId="Mecanicien" [options]="mecaniciens" optionLabel="name" optionValue="_id" [(ngModel)]="filters.userId" styleClass="w-full" />
+                    <label for="Mecanicien">Mécanicien</label>
+                </p-floatlabel>
+            
+                <p-floatlabel variant="on" class="w-full">
+                    <p-datepicker inputId="debut" [(ngModel)]="filters.startDate" showIcon iconDisplay="input" dateFormat="yy-mm-dd"/>
+                    <label for="debut">Date début</label>
+                </p-floatlabel>
+            
+                <p-floatlabel variant="on" class="w-full">
+                    <p-datepicker inputId="fin" [(ngModel)]="filters.endDate" showIcon iconDisplay="input" dateFormat="yy-mm-dd"/>
+                    <label for="fin">Date fin</label>
+                </p-floatlabel>
+            
+                <p-floatlabel variant="on" class="w-full">
+                    <p-select inputId="Etat" optionLabel="name" [(ngModel)]="filters.state" optionValue="_id" styleClass="w-full" />
+                    <label for="Etat">État</label>
+                </p-floatlabel>
+            
+                <p-floatlabel variant="on" class="w-full">
+                    <p-select inputId="Category" [options]="categories" optionLabel="name" [(ngModel)]="filters.categoryId" optionValue="_id" styleClass="w-full" />
+                    <label for="Category">Catégorie</label>
+                </p-floatlabel>
+                
+                <button pButton label="Ok" (click)="applyFilters()"></button>
+            </div>            
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Prestation</th>
+                <th>Catégorie</th>
+                <th>Marque</th>
+                <th>Date debut</th>
+                <th>Durée</th>
+                @if (affectation) {
+                    <th>Affectation</th>
+                } @else {
+                    <th>Mécanicien</th>
+                    <th>Etat</th>
+                }
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-task>
+            @if(tasks.length > 0) {
+                <tr>
+                    <td>{{ task.prestation_brand.prestation.name }}</td>
+                    <td>{{ task.prestation_brand.prestation.category.name }}</td>
+                    <td>{{ task.prestation_brand.brand.name }}</td>
+                    <td>{{ task.date_start | date : "d MMMM yyyy HH:mm" }}</td>
+                    <td>{{ task.prestation_brand.duration }} minutes</td>
+                    @if (affectation && !task.user) {
+                        <td><p-button label="Affecter" [raised]="true"  size="small"(onClick)="openDialog(task)" /></td>
+                    } @else if (!affectation) {
+                        <td *ngIf="task.user">{{ task.user.name }} {{ task.user.first_name }}</td>
+                        <td *ngIf="!task.user">Aucun</td>
+                        <td *ngIf="task.user">{{ task.state.name }}</td>
+                        <td *ngIf="!task.user">Non affectée</td>
+                    }
+                </tr>
             } @else {
-                <th>Mécanicien</th>
-                <th>Etat</th>
+                <tr [ariaColSpan]="6">
+                    <app-message-block></app-message-block>
+                </tr>
             }
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-task>
-        <tr>
-            <td>{{ task.prestation_brand.prestation.name }}</td>
-            <td>{{ task.prestation_brand.prestation.description }}</td>
-            <td>{{ task.prestation_brand.brand.name }}</td>
-            <td>{{ task.date_start | date : "d MMMM yyyy HH:mm" }}</td>
-            <td>{{ task.prestation_brand.duration }} minutes</td>
-            @if (affectation && !task.user) {
-                <td><p-button label="Affecter" [raised]="true"  size="small" /></td>
-            } @else if (!affectation) {
-                <td>{{ task.user?.firstName }}</td>
-                <td>{{ task.state.name }}</td>
-            }
-        </tr>
-    </ng-template>
-</p-table>
+        </ng-template>
+    </p-table>
 
 <app-pagination
     [totalRecords]="tasks.length"
     [rows]="rows" (pageChange)="onChildPageChange($event)"
 ></app-pagination>
+
+
+<p-dialog header="Affectation Mécanicien" [modal]="true" closable="false" [(visible)]="showAffectationDialog" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-3">Affecter un mécanicien.</span>
+    <div class="flex items-center gap-4 mb-4">
+        <p-select [options]="mecaniciens" [(ngModel)]="selectedMecanicien" optionLabel="first_name" placeholder="Selectionner Un Mécanicien" class="w-full md:w-56" appendTo="body" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Annuler" severity="secondary" (click)="closeDialog()" />
+        <p-button label="Affecter" (click)="confirmAffectation($event)" />
+    </div>
+</p-dialog>

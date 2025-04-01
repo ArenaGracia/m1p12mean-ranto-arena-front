@@ -1,7 +1,7 @@
 import { Profile } from "./Profile";
 
 export class User {
-  id: string = "";
+  _id: string = "";
   name: string = "";
   firstName: string = "";
   email: string = "";
