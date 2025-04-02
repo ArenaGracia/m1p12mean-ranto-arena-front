@@ -1,0 +1,15 @@
+$primary-color: #c23210;
+$primary-dark: #e94016;
+
+:host ::ng-deep .fc-button {
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+  color: white !important;
+}
+
+:host ::ng-deep .fc-button:hover,
+:host ::ng-deep .fc-button.fc-button-active {
+  background-color: $primary-dark !important;
+  border-color: $primary-dark !important;
+  color: white !important;
+}

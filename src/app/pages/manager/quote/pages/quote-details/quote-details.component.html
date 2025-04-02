@@ -15,6 +15,12 @@
                         <i class="pi pi-envelope mr-2"></i>
                         <span>{{quote?.appointment?.user?.email}}</span>
                     </div>
+                    
+                    <div class="mr-5 flex align-items-center mt-3">
+                        <i class="pi pi-car mr-2"></i>
+                        <span>{{quote.appointment?.car.license_plate_number }} </span>
+                    </div>
+
                     <div class="mr-5 flex align-items-center mt-3">
                         <i class="pi pi-clock mr-2"></i>
                         <span>
@@ -24,7 +30,7 @@
                     </div>
                     <div *ngIf="quote?.discount != 0" class="flex align-items-center mt-3">
                         <i class="pi pi-dollar mr-2"></i>
-                        <span>Remise : {{quote?.discount}} </span>
+                        <span>Remise : {{quote?.discount}} %</span>
                     </div>
                 </div>
 
