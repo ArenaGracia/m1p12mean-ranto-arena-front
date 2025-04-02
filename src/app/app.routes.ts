@@ -8,6 +8,7 @@ import { LoginMecanicienComponent } from './pages/mecanicien/login/login.compone
 import { LayoutComponent } from './shared/components/client-layout/layout/layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
+import { ReconnectComponent } from './shared/components/reconnect/reconnect.component';
 
 export const routes: Routes = [
     {
@@ -32,6 +33,7 @@ export const routes: Routes = [
     { path: 'mecanicien/login', component: LoginMecanicienComponent},
     { path: 'notfound', component: NotfoundComponent },
     { path: 'unauthorized', component: UnauthorizedComponent },
+    { path: 'reconnect', component: ReconnectComponent },
     { path: 'error:message', component: ErrorComponent },
     { path: '**', redirectTo: '/notfound' }
 ];

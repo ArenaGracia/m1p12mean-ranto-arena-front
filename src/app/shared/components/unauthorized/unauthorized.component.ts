@@ -22,16 +22,4 @@ import { AuthService } from '../../../core/service/auth.service';
     `
 })
 export class UnauthorizedComponent {
-    profile!: string;
-
-    constructor(private authService: AuthService) {}
-
-    ngOnInit() {
-        const user = this.authService.getUserInfo();
-        this.profile = user.profile
-            .toLowerCase()  
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-            
-    }
 }
