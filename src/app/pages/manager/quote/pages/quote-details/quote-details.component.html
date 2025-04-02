@@ -1,5 +1,8 @@
 @if (!isLoading) {
     <p-card class="surface-section px-4 py-5 md:px-6 lg:px-8">
+
+        <!-- Details du devis -->
+
         <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row">
             <div>
                 <div class="font-medium text-3xl text-900">Details du devis</div>
@@ -24,6 +27,9 @@
                         <span>Remise : {{quote?.discount}} </span>
                     </div>
                 </div>
+
+                <!-- Details du payement -->
+
                 <div class="flex align-items-center text-700 flex-wrap" *ngIf="quote?.quote_state?.value == 2">
                     <div class="mr-5 flex align-items-center mt-3">
                         <div>Total montant payé :</div>
@@ -34,7 +40,7 @@
                         <span>{{paymentSummary?.amount_remaining | montant}}</span>
                     </div>
                     <div class="mt-3 lg:mt-0">
-                        <button pButton pRipple label="Procéder au payement" class="p-button-outlined mr-2" icon="pi pi-money-bill" (click)="showPaymentDialog =true"></button>
+                        <button pButton pRipple label="Procéder au payement" class="p-button-outlined mr-2" icon="pi pi-money-bill" (click)="showPaymentDialog =true" *ngIf="paymentSummary?.amount_remaining != 0"></button>
                     </div>
                 </div>
             </div>
@@ -46,6 +52,8 @@
         </div>
     </p-card>
 
+    <!-- Liste des Details-Devis -->
+
     <p-card header="Prestation Incluses" class=" overflow-auto">
         <app-quote-details-list [quoteDetails]="this.quote?.quote_details"></app-quote-details-list>
         <div class="row m-3">
@@ -56,6 +64,7 @@
 } @else {
     <app-loading-spinner></app-loading-spinner>
 }
+
 
 <!-- Dialog pour l'ajout de remise -->
 
@@ -69,6 +78,7 @@
         <p-button label="Enregistrer" [disabled]="(discount == 0)" (click)="confirm('discount')" />
     </div>
 </p-dialog>
+
 
 <!-- Dialog pour la modification de la date -->
 
@@ -84,12 +94,13 @@
     </div>
 </p-dialog>
 
+
 <!-- Dialog pour le formulaire de payement -->
 
 <p-dialog #dialog header="Paiement" [modal]="true" [(visible)]="showPaymentDialog" [style]="{ width: '25rem' }">
     <app-payment-form 
         [quoteId]="this.quote?._id" 
-        [amountLeft]="this.quote?.amount_left"
+        [amountLeft]="this.paymentSummary?.amount_remaining"
         [messageService]="messageService"
         [confirmationService]="confirmationService"
         [showDialog]="showPaymentDialog"

@@ -13,7 +13,7 @@ export class UserService {
   
 
   getAllMecaniciens(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/Mécanicien/`);
+    return this.http.get<any[]>(`${this.apiUrl}/Mecanicien/`);
   }
 
 }

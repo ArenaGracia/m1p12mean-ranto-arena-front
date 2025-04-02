@@ -10,6 +10,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
 
 @Component({
 	selector: 'app-payment-form',
@@ -24,7 +25,8 @@ import { InputTextModule } from 'primeng/inputtext';
 		FloatLabelModule,
 		DatePickerModule,
 		InputNumberModule,
-		InputTextModule
+		InputTextModule,
+		MessageModule
 	],
 	templateUrl: './payment-form.component.html',
 })
@@ -38,6 +40,8 @@ export class PaymentFormComponent {
 
     @Output() onSave = new EventEmitter<any>();
 	
+	errorMessage?: string;
+
 	// payment
 	paymentForm : FormGroup = this.fb.group({
 		amount:  [null, [Validators.required, Validators.min(0)]],
@@ -56,11 +60,16 @@ export class PaymentFormComponent {
 		const amount = this.paymentForm.get('amount')?.value;
         const date = this.paymentForm.get('date')?.value;
 
-        this.paymentService.makePayment({amount, date, quote_id: this.quoteId}, this.amountLeft).subscribe((payement) => {
-            this.paymentForm.reset();
-			this.onSave.emit(payement);
-			this.messageService.add({ severity: 'info', summary: 'Payement Enregistré', detail: 'Les informations de ce payement a été enregistré' });
-        });
+        this.paymentService.makePayment({amount, date, quote_id: this.quoteId}, this.amountLeft).subscribe({ 
+			next:(payement) => {
+				this.paymentForm.reset();
+				this.onSave.emit(payement);
+				this.messageService.add({ severity: 'info', summary: 'Payement Enregistré', detail: 'Les informations de ce payement a été enregistré' });
+        	},
+			error: (error) => {
+				this.errorMessage = error.error.message;
+			}
+		});
 	}
 
 	confirmPayment(event: Event) {

@@ -5,11 +5,12 @@ import { ButtonModule } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
 import { MenuItem } from 'primeng/api';
 import { CommonModule } from '@angular/common';
-import { items } from './menu-items';
+import { items, mecanicienItem } from './menu-items';
 
 
 import { MenuModule } from 'primeng/menu';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../../core/service/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,11 +23,22 @@ import { RouterModule } from '@angular/router';
 export class SidebarComponent { 
   @Input() isCollapsed = false;
 
-  items : MenuItem[] = items;
+  items : MenuItem[] = [];
 
   isSidebarHidden = false;
 
   toggleSidebar() {
       this.isSidebarHidden = !this.isSidebarHidden;
+  }
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    const user = this.authService.getUserInfo();
+    if (user.profile === "Manager") {
+      this.items = items;
+    } else if(user.profile === "Mecanicien") {
+      this.items = mecanicienItem;
+    }
   }
 }
