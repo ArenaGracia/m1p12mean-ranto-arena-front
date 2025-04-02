@@ -8,7 +8,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot): boolean {
         const token = this.auth.getToken();
-        if (!token) {
+        if (!token || token == null) {
             console.log("TOKEN non present, redirection vers login");
             
             let expectedRole = route.data['profile'];

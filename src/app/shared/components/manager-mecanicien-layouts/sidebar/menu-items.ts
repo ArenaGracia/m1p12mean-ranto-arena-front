@@ -1,7 +1,20 @@
 import { MenuItem } from "primeng/api";
 
+
+export const mecanicienItem: MenuItem[] = [
+    {
+        label: 'Tâches',
+        items: [
+            {
+                label: 'Liste à faire',
+                icon: 'pi pi-list',
+                url: '/mecanicien/task',
+            }
+        ]
+    },
+];
  
- export const items: MenuItem[] = [
+export const items: MenuItem[] = [
     {
         label: 'Devis',
         items: [
@@ -55,3 +68,4 @@ import { MenuItem } from "primeng/api";
         ]
     }
 ];
+
