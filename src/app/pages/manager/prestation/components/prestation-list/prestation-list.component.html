@@ -1,6 +1,23 @@
 
 @if (prestations.length > 0) {
-    <p-table [value]="prestations">
+    <p-table 
+        #dt
+        [value]="prestations"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [globalFilterFields]="['name', 'description', 'category.name']"
+        currentPageReportTemplate="{first} sur {last} de {totalRecords} prestations"
+        [rowsPerPageOptions]="[5, 10, 20]"
+    >
+        <ng-template #caption>
+            <div class="flex items-center justify-content-end">*
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search" />
+                    <input pInputText type="text" (input)="onFilterGlobal($event, dt)" placeholder="Rechercher..." />
+                </p-iconfield>
+            </div>
+        </ng-template>
         <ng-template #header>
             <tr>
                 <th>Image</th>

@@ -11,6 +11,7 @@ import { UnauthorizedComponent } from './shared/components/unauthorized/unauthor
 import { ReconnectComponent } from './shared/components/reconnect/reconnect.component';
 
 export const routes: Routes = [
+    { path: '', redirectTo: '/client/accueil', pathMatch: "full"},
     {
         path: 'manager',
         component: LayoutsComponent,

@@ -42,19 +42,23 @@ export class QuoteListComponent {
         this.quoteService.validateQuote(quoteId).subscribe({
             next : () => {
                 this.messageService?.add({ severity: 'info', detail: 'Le Devis a été Validé', life: 3000 });
-            }
+            }, error : (error) => {
+                this.messageService?.add({ severity: 'danger', detail: error.error.message, life: 3000 });
+            },
         });
     }
 
-    cancelQuote (quoteId: string) { 
-        this.quoteService.cancelQuote(quoteId).subscribe({
+    cancelQuote (quoteId: string, email: string) { 
+        this.quoteService.cancelQuote(quoteId, email).subscribe({
             next : () => {
                 this.messageService?.add({ severity: 'info', detail: 'Le Devis a été annulé', life: 3000 });
-            }
+            }, error : (error) => {
+                this.messageService?.add({ severity: 'danger', detail: error.error.message, life: 3000 });
+            },
         });
     }
 
-    confirm(quoteId: string, type: string) {
+    confirm(quoteId: string, type: string, email?:string) {
         this.confirmationService!.confirm({
             header: 'Confirmation',
             message: 'Voulez-vous '+type+' le devis?',
@@ -74,7 +78,7 @@ export class QuoteListComponent {
                 if (type == 'valider') {
                     this.validateQuote(quoteId);
                 } else if (type == 'annuler') {
-                    this.cancelQuote(quoteId);
+                    this.cancelQuote(quoteId, email!);
                 }
             },
             reject: () => { }

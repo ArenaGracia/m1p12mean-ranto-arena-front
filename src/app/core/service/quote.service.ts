@@ -28,8 +28,8 @@ export class QuoteService {
         return this.http.put<Quote>(`${this.apiUrl}/validate/${quoteId}`, {});
     }
     
-    cancelQuote (quoteId: string): Observable<Quote> {
-        return this.http.put<Quote>(`${this.apiUrl}/decline/${quoteId}`, {});
+    cancelQuote (quoteId: string, useremail: string): Observable<Quote> {
+        return this.http.put<Quote>(`${this.apiUrl}/cancel/${quoteId}`, {email: useremail });
     }
     
     updateDiscount (quoteId: string, discount: number): Observable<any> {

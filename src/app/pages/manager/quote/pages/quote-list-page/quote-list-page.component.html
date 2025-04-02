@@ -2,7 +2,7 @@
 <p-card>
     @if (!isloading) {
         
-        <div class="flex justify-end my-4">
+        <div class="flex justify-content-end my-4">
             <p-select [options]="states" [(ngModel)]="selectedState" (onChange)="onStateSelect($event)"  optionLabel="name" placeholder="Selectionnez un etat" class="md:w-56" />
         </div>
 
