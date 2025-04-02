@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/manager/login/login.component';
 import { LoginClientComponent } from './pages/client/login/login.component';
 import { LayoutComponent } from './shared/components/client-layout/layout/layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'manager/login', component: LoginComponent},
     { path: 'client/login', component: LoginClientComponent},
     { path: 'notfound', component: NotfoundComponent },
+    { path: 'unauthorized', component: UnauthorizedComponent },
     { path: 'error:message', component: ErrorComponent },
     { path: '**', redirectTo: '/notfound' }
 ];

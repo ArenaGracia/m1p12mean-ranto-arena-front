@@ -10,15 +10,17 @@ import { LoadingSpinnerComponent } from '../../../../../shared/components/loadin
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { DialogModule } from 'primeng/dialog';
+import { Dialog, DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { FloatLabel } from 'primeng/floatlabel';
 import { MontantPipe } from "../../../../../shared/pipes/montant.pipe";
 import { EmailService } from '../../../../../core/service/email.service';
 import { QuoteDetailsListComponent } from '../../components/quote-details-list/quote-details-list.component';
+import { PaymentFormComponent } from '../../components/payment-form/payment-form.component';
+import { PaymentService } from '../../../../../core/service/payment.service';
 
 @Component({
   selector: 'app-quote-details',
@@ -39,7 +41,8 @@ import { QuoteDetailsListComponent } from '../../components/quote-details-list/q
     DatePicker,
     FloatLabel,
     MontantPipe,
-    QuoteDetailsListComponent
+    QuoteDetailsListComponent,
+    PaymentFormComponent
 ],
   providers: [ MessageService, ConfirmationService],
   templateUrl: './quote-details.component.html'
@@ -51,14 +54,19 @@ export class QuoteDetailsComponent {
     discount: number = 0;
     showUpdateDate: boolean = false;
     newDate: any;
+    paymentSummary?: any;
+
+	showPaymentDialog: boolean = false;
 
 	constructor (
 		private quoteService: QuoteService, 
+        private paymentService: PaymentService, 
 		private route: ActivatedRoute, 
 		private router: Router,
-		private confirmationService: ConfirmationService,
-		private messageService: MessageService,
-        private emailService: EmailService
+		public confirmationService: ConfirmationService,
+		public messageService: MessageService,
+        public emailService: EmailService,
+        private fb: FormBuilder
 	) {}
 
     ngOnInit() {
@@ -66,6 +74,7 @@ export class QuoteDetailsComponent {
 		
 		if (id) {
 			this.getDetailsQuote(id);
+            this.getPaymentSummary(id);
 			this.isLoading = false;
 		} else {
 			this.router.navigate([`manager/error`, 'id du devis non trouvé']);
@@ -87,6 +96,17 @@ export class QuoteDetailsComponent {
 		});
 	}
 
+    getPaymentSummary(id: string) {
+        this.paymentService.getPaymentSummary(id).subscribe({
+            next: (summary: any) => {
+                this.paymentSummary = summary;
+            },
+            error: (error: any) => {
+                this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
+            }
+        });
+    }
+
 	validateQuote () {
 		this.quoteService.validateQuote(this.quote._id).subscribe({
 			next : (quote: any) => {
@@ -101,8 +121,8 @@ export class QuoteDetailsComponent {
 
     UpdateDiscount () {
         this.quoteService.updateDiscount(this.quote._id, this.discount).subscribe({
-            next: (data:any) => {
-                this.quote = data;
+            next: () => {
+                this.quote.discount = this.discount;
 				this.messageService.add({ severity: 'info', summary: 'Remise Mise à jour', detail: 'La remise a été mise à jour', life: 3000 });
             },
             error: (error:any) => {
@@ -163,5 +183,11 @@ export class QuoteDetailsComponent {
             },
             reject: () => { }
         });
+    }
+
+    
+    onPaymentSaved(payment: any) {
+        this.getPaymentSummary(this.quote?._id);
+        this.showPaymentDialog = false;
     }
 }
