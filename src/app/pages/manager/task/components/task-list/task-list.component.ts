@@ -48,6 +48,7 @@ export class TaskListComponent {
     @Input() rows: number = 10;
     @Input() tasks: Task[] = [];
     @Input() affectation: boolean = false;
+    @Input() mecanicienProfile: boolean = false;
     @Output() paginationChange = new EventEmitter<{ rows: number; first: number }>();
     @Output() filtersChanged = new EventEmitter<any>(); // Émet les filtres vers le parent
 

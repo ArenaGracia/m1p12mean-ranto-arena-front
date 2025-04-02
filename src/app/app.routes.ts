@@ -4,8 +4,10 @@ import { NotfoundComponent } from './shared/components/notfound/notfound.compone
 import { ErrorComponent } from './shared/components/error/error.component';
 import { LoginComponent } from './pages/manager/login/login.component';
 import { LoginClientComponent } from './pages/client/login/login.component';
+import { LoginMecanicienComponent } from './pages/mecanicien/login/login.component';
 import { LayoutComponent } from './shared/components/client-layout/layout/layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 
 export const routes: Routes = [
     {
@@ -20,9 +22,16 @@ export const routes: Routes = [
         component: LayoutComponent,
         loadChildren: () => import('./pages/client/client.routes')
     },
+    {
+        path: 'mecanicien',
+        component: LayoutsComponent,
+        loadChildren: () => import('./pages/mecanicien/mecanicien.routes')
+    },
     { path: 'manager/login', component: LoginComponent},
     { path: 'client/login', component: LoginClientComponent},
+    { path: 'mecanicien/login', component: LoginMecanicienComponent},
     { path: 'notfound', component: NotfoundComponent },
+    { path: 'unauthorized', component: UnauthorizedComponent },
     { path: 'error:message', component: ErrorComponent },
     { path: '**', redirectTo: '/notfound' }
 ];

@@ -14,5 +14,19 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
         ? req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) })
         : req;
     console.log(authReq);
-    return next(authReq);
+
+    
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  
+
+    return next(authReq).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            // Redirection vers la page de connexion en cas de réponse 401 (token expiré ou invalide)
+            router.navigate(['/unauthorized']);
+          }
+          return throwError(error); 
+        })
+    );;
 };

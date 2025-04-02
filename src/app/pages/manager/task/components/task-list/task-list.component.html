@@ -3,7 +3,7 @@
 <p-table [value]="tasks">
     <ng-template pTemplate="caption" *ngIf="!affectation">
             <div class="flex gap-3">
-                <p-floatlabel variant="on" class="w-full">
+                <p-floatlabel variant="on" class="w-full" *ngIf="!mecanicienProfile">
                     <p-select inputId="Mecanicien" [options]="mecaniciens" optionLabel="name" optionValue="_id" [(ngModel)]="filters.userId" styleClass="w-full" />
                     <label for="Mecanicien">Mécanicien</label>
                 </p-floatlabel>
@@ -28,7 +28,7 @@
                     <label for="Category">Catégorie</label>
                 </p-floatlabel>
                 
-                <button pButton label="Ok" (click)="applyFilters()"></button>
+                <p-button icon="pi pi-filter" (click)="applyFilters()"/>
             </div>            
         </ng-template>
         <ng-template pTemplate="header">
@@ -40,7 +40,7 @@
                 <th>Durée</th>
                 @if (affectation) {
                     <th>Affectation</th>
-                } @else {
+                } @else if (!affectation && !mecanicienProfile) {
                     <th>Mécanicien</th>
                     <th>Etat</th>
                 }
@@ -56,11 +56,13 @@
                     <td>{{ task.prestation_brand.duration }} minutes</td>
                     @if (affectation && !task.user) {
                         <td><p-button label="Affecter" [raised]="true"  size="small"(onClick)="openDialog(task)" /></td>
-                    } @else if (!affectation) {
+                    } @else if (!affectation && !mecanicienProfile) {
                         <td *ngIf="task.user">{{ task.user.name }} {{ task.user.first_name }}</td>
                         <td *ngIf="!task.user">Aucun</td>
                         <td *ngIf="task.user">{{ task.state.name }}</td>
                         <td *ngIf="!task.user">Non affectée</td>
+                    } @else if (mecanicienProfile) {
+                        <td><p-button label="Terminer" [raised]="true" severity="success" size="small" /></td>
                     }
                 </tr>
             } @else {

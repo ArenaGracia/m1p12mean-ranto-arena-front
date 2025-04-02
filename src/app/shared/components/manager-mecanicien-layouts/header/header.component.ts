@@ -28,8 +28,12 @@ export class HeaderComponent {
     }
 
     logOut () {
+        let url = this.authService.getUserInfo().profile
+                .toLowerCase()  
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
         this.authService.logout();
-        this.router.navigate(['/manager/']);
+        this.router.navigate([url]);
     }
 
     toggleSidebar() {
