@@ -1,0 +1,9 @@
+
+<p-card>
+    <app-task-list
+        [titre]="'Suivie des tâches'"
+        [tasks]="tasks"
+        (filtersChanged)="onFiltersChanged($event)"
+        (paginationChange)="onPaginationChange($event)"
+    ></app-task-list>
+</p-card>

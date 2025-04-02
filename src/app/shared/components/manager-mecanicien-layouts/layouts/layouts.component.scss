@@ -1,0 +1,62 @@
+.layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    
+    .layout-body {
+        display: flex;
+        flex: 1;
+        // overflow-y: hidden;
+        overflow-x: hidden;
+        background-color: rgba(240, 240, 240, 0.548);
+    }
+  
+    app-sidebar {
+        width: 280px;
+        transition: transform 0.3s ease-in-out;
+    }
+  
+    .layout-main-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        // overflow-y: hidden;
+        // overflow-x: hidden;
+        padding: 30px;
+        transition: margin-left 0.3s ease;
+    }
+  
+    .sidebar-hidden app-sidebar {
+        transform: translateX(-100%);
+    }
+
+    app-footer {
+        margin-top: auto; 
+      }
+}
+
+.layout-body {
+    display: flex;
+  }
+  
+  app-sidebar {
+    width: 250px;
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar-hidden app-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .layout-main-container {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+  }
+
+  .layout-wrapper {
+  &.sidebar-hidden {
+    .layout-main-container {
+      margin-left: -250px;
+    }
+  }
+}

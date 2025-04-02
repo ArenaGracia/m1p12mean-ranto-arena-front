@@ -1,0 +1,35 @@
+<!-- <div class="row"> -->
+    <div class="space"></div>
+    @if (!isLoading) {
+        <div class="card-caroussel">
+            <h2>Les catégories des prestations</h2>
+            <div class="space"></div>
+            <p-carousel 
+                [value]="categories" 
+                [numVisible]="3" 
+                [numScroll]="3" 
+                [circular]="false" 
+                [responsiveOptions]="responsiveOptions">
+        
+                <ng-template let-category #item>
+                    <div class="border border-surface rounded-border m-2 p-4">
+                        <div class="mb-4 font-medium">{{ category.name }}</div>
+                        <div class="flex justify-between items-center">
+                            <span>
+                                <p-button icon="pi pi-eye" styleClass="ml-2"  [routerLink]="['/client/categorie',category._id]" />
+                            </span>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
+        </div>
+    } @else {
+
+        <div class="space"></div>
+        <app-loading-spinner></app-loading-spinner>
+
+    }
+
+    <div class="space"></div>
+
+<!-- </div> -->
