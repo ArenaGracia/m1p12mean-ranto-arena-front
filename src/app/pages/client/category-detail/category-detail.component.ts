@@ -10,7 +10,7 @@ import { TagModule } from 'primeng/tag';
 @Component({
   selector: 'app-category-detail',
   standalone: true,
-  imports: [CarouselModule, ButtonModule, TagModule, RouterLink,LoadingSpinnerComponent ],
+  imports: [CarouselModule, ButtonModule, TagModule ,LoadingSpinnerComponent ],
   templateUrl: './category-detail.component.html',
   styleUrl: './category-detail.component.scss'
 })

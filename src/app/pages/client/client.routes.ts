@@ -4,6 +4,7 @@ import { PrestationComponent } from "./prestation/prestation.component";
 import { CategoryDetailComponent } from "./category-detail/category-detail.component";
 import { QuoteComponent } from "./quote/quote.component";
 import { AuthGuard } from "../../core/guards/auth.guard";
+import { QuoteDetailsComponent } from "./quote-details/quote-details.component";
 
 
 export default [
@@ -11,6 +12,7 @@ export default [
     { path: 'accueil', component: AccueilComponent},
     { path: 'prestation', component: PrestationComponent},
     { path: 'categorie/:id', component: CategoryDetailComponent},
+    { path: 'quote/:id', component: QuoteDetailsComponent},
     { 
         path: 'quote',
         canActivate: [AuthGuard],
