@@ -2,12 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
-import { Quote } from '../../../../../shared/models/Quote';
 import { MessageBlockComponent } from '../../../../../shared/components/message-block/message-block.component';
 import { ButtonModule } from 'primeng/button';
 import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import { RouterLink } from '@angular/router';
-import { LoadingSpinnerComponent } from '../../../../../shared/components/loading-spinner/loading-spinner.component';
 import { QuoteService } from '../../../../../core/service/quote.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -21,14 +19,13 @@ import { MontantPipe } from "../../../../../shared/pipes/montant.pipe";
     CommonModule,
     TableModule,
     CardModule,
-    LoadingSpinnerComponent,
     MessageBlockComponent,
     ButtonModule,
     PaginationComponent,
     RouterLink,
     ConfirmDialogModule,
     TooltipModule,
-    MontantPipe
+    MontantPipe,
 ],
   templateUrl: './quote-list.component.html',
 })
@@ -37,12 +34,9 @@ export class QuoteListComponent {
     @Input() title: string = "Liste devis";
     @Input() messageService?: MessageService;
     @Input() confirmationService?: ConfirmationService;
+    @Input() showValidationButton: boolean = false;
 
     constructor(private quoteService: QuoteService) {}
-
-    ngOnInit() {
-        console.log(this.quotes);  
-    }
 
     validateQuote (quoteId: string) {
         this.quoteService.validateQuote(quoteId).subscribe({
@@ -52,10 +46,18 @@ export class QuoteListComponent {
         });
     }
 
-    confirm(quoteId: string) {
+    cancelQuote (quoteId: string) { 
+        this.quoteService.cancelQuote(quoteId).subscribe({
+            next : () => {
+                this.messageService?.add({ severity: 'info', detail: 'Le Devis a été annulé', life: 3000 });
+            }
+        });
+    }
+
+    confirm(quoteId: string, type: string) {
         this.confirmationService!.confirm({
             header: 'Confirmation',
-            message: 'Confirmation de la validation du devis',
+            message: 'Voulez-vous '+type+' le devis?',
             icon: 'pi pi-exclamation-circle',
             rejectButtonProps: {
                 label: 'Annuler',
@@ -69,7 +71,11 @@ export class QuoteListComponent {
                 size: 'small'
             },
             accept: () => {
-                this.validateQuote(quoteId);
+                if (type == 'valider') {
+                    this.validateQuote(quoteId);
+                } else if (type == 'annuler') {
+                    this.cancelQuote(quoteId);
+                }
             },
             reject: () => { }
         });

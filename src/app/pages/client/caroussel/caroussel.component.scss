@@ -1,4 +1,7 @@
 $color: #e94016;
+$btn-quote-color: #e94016;
+$btn-quote-hover-color: rgb(231, 36, 36);
+$btn-text-color: white;
 
 .caroussel{
     width: 100% !important;
@@ -7,6 +10,34 @@ $color: #e94016;
     background-image: url("/assets/images/caroussel.png");
     background-repeat: no-repeat;
     background-size: cover;
+    color: white;
+
+    .caroussel-info{
+        padding-top: 200px;
+        float: right;
+        width: 500px;
+        text-align: right;
+        margin-right: 100px;
+    }
+
+
+}
+
+
+.btn-quote {
+    background-color: $btn-quote-color;
+    color: $btn-text-color;
+    border: none;
+    padding: 8px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-left: 20px;
+}
+
+.btn-logout {
+    background-color: $btn-quote-color;
 }
 
 .expertise{

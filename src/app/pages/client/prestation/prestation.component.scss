@@ -5,3 +5,24 @@
 .space{
     height: 60px;
 }
+  
+h2{
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+p{
+    margin-top: 20px;
+    margin-left: 100px;
+    font-size: 14px;
+    margin-top: -10px;
+}  
+  
+@media screen and (min-width: 128px) and (max-width: 1024px) {
+    h2, p{
+        margin-left: 50px;
+    }
+}
+  
+  
+  

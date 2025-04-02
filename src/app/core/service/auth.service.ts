@@ -21,8 +21,6 @@ export class AuthService {
 
   saveToken(token: string) {
     localStorage.setItem(this.tokenKey, token);
-    console.log(token);
-    
     this.isLoggedIn$.next(true);
   }
 
@@ -36,6 +34,13 @@ export class AuthService {
   
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload;
+  }
+
+  isLoggedRight(profile : string){
+    const payload = this.getUserInfo();
+    if (payload == null || payload.profile == null) return false; 
+    if(payload.profile == profile) return true;
+    return false;
   }
 
   logout() {

@@ -6,8 +6,8 @@ export interface MenuItem {
   icon: string;
   command: () => void;
 }
-export function getMenuItems(navbarComponent: NavbarComponent): MenuItem[] {
-  return [
+export function getMenuItems(navbarComponent: NavbarComponent, isLoggedIn : boolean): MenuItem[] {
+  const menuItems = [
     {
       label: "Accueil",
       icon: "fas fa-home",
@@ -17,11 +17,16 @@ export function getMenuItems(navbarComponent: NavbarComponent): MenuItem[] {
       label: "Prestation",
       icon: "fas fa-cogs",
       command: () => navbarComponent.navigateTo("/client/prestation")
-    },
-    {
-      label: "Contact",
-      icon: "fas fa-envelope",
-      command: () => navbarComponent.navigateTo("/client/contact")
     }
   ];
+
+  if (isLoggedIn) {
+    menuItems.push({
+      label: "Devis",
+      icon: "fas fa-envelope",
+      command: () => navbarComponent.navigateTo("/client/quote")
+    });
+  }
+
+  return menuItems;
 }

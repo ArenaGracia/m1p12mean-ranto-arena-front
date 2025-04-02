@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-caroussel',
@@ -9,10 +10,10 @@ import { Component } from '@angular/core';
   styleUrl: './caroussel.component.scss'
 })
 export class CarousselComponent {
-  images = [
-    'https://via.placeholder.com/800x400/FF5733/FFFFFF?text=Slide+1',
-    'https://via.placeholder.com/800x400/33FF57/FFFFFF?text=Slide+2',
-    'https://via.placeholder.com/800x400/3357FF/FFFFFF?text=Slide+3'
-  ];
+  constructor(private router:Router){}
+
+  creerDevis(){
+    this.router.navigate(["/client/quote"]);
+  }
 }
 

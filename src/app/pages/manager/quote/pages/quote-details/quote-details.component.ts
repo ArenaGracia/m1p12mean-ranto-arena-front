@@ -17,6 +17,8 @@ import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { FloatLabel } from 'primeng/floatlabel';
 import { MontantPipe } from "../../../../../shared/pipes/montant.pipe";
+import { EmailService } from '../../../../../core/service/email.service';
+import { QuoteDetailsListComponent } from '../../components/quote-details-list/quote-details-list.component';
 
 @Component({
   selector: 'app-quote-details',
@@ -36,39 +38,31 @@ import { MontantPipe } from "../../../../../shared/pipes/montant.pipe";
     FormsModule,
     DatePicker,
     FloatLabel,
-    MontantPipe
+    MontantPipe,
+    QuoteDetailsListComponent
 ],
   providers: [ MessageService, ConfirmationService],
   templateUrl: './quote-details.component.html'
 })
 export class QuoteDetailsComponent { 
-    prestations: any[] = [
-        {
-            name: 'Vidange',
-            prix: 100
-        },
-        {
-            name: 'Réparation pneu',
-            prix: 200
-        }
-    ];
 	quote: any;
 	isLoading: boolean = true;
     addDiscountVisible: boolean = false;
     discount: number = 0;
     showUpdateDate: boolean = false;
+    newDate: any;
 
 	constructor (
 		private quoteService: QuoteService, 
 		private route: ActivatedRoute, 
 		private router: Router,
 		private confirmationService: ConfirmationService,
-		private messageService: MessageService
+		private messageService: MessageService,
+        private emailService: EmailService
 	) {}
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
-		console.log(id);
 		
 		if (id) {
 			this.getDetailsQuote(id);
@@ -83,10 +77,10 @@ export class QuoteDetailsComponent {
 			next : (data) => {
 				this.quote = data;
                 this.discount = this.quote.discount;
-                if (this.quote.appointment_id.time_start && typeof this.quote.appointment_id.time_start === 'string') {
-                    this.quote.appointment_id.time_start = new Date(this.quote.appointment_id.time_start);
+                if (this.quote.appointment.time_start && typeof this.quote.appointment.time_start === 'string') {
+                    this.quote.appointment.time_start = new Date(this.quote.appointment.time_start);
                 }
-				console.log(this.quote.appointment_id.time_start);
+                this.newDate = data.appointment.time_start;
 			}, error : (error) => {
 				this.router.navigate([`manager/error`, error.error.message]);
 			}
@@ -113,6 +107,17 @@ export class QuoteDetailsComponent {
             },
             error: (error:any) => {
 				this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
+            }
+        });
+    }
+
+    SendEmailConfirmationNewDate() {
+        this.emailService.sendEmailConfirmation(this.quote.appointment.user.email, this.newDate, this.quote.appointment.time_start, this.quote._id).subscribe({
+            next: () => {
+                this.messageService.add({ severity: 'info', summary: 'Email envoyé', detail: 'Un email de confirmation a été envoyé', life: 3000 });
+            },
+            error: (error:any) => {
+                this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
             }
         });
     }
@@ -153,6 +158,7 @@ export class QuoteDetailsComponent {
                     this.addDiscountVisible = false;
                 } else if (type === 'newDate') {
                     this.showUpdateDate = false;
+                    this.SendEmailConfirmationNewDate();
                 }
             },
             reject: () => { }
