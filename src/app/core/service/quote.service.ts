@@ -35,4 +35,8 @@ export class QuoteService {
     updateDiscount (quoteId: string, discount: number): Observable<any> {
         return this.http.put<any>(`${this.apiUrl}/discount/${quoteId}`, {discount});
     }
+
+    getQuoteByUser() : Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/client`);
+    }
 }  
