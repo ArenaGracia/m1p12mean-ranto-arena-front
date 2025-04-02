@@ -1,0 +1,21 @@
+<div *ngIf="totalRecords > 0" class="flex align-items-center justify-content-end m-4">
+  <span class="mx-1 text-color hidden sm:block">Elements par page: </span>
+  <p-select 
+    [options]="options" 
+    optionLabel="label" 
+    optionValue="value" 
+    [(ngModel)]="rows" 
+    [style]="{'border':'none'}" 
+    (ngModelChange)="onPageChange({first: 0, rows: rows})">
+  </p-select>
+  <p-paginator 
+    [first]="first" 
+    [rows]="rows" 
+    [totalRecords]="totalRecords" 
+    (onPageChange)="onPageChange($event)" 
+    [showCurrentPageReport]="showCurrentPageReport"
+    currentPageReportTemplate="{first} - {last} de {totalRecords} éléments" 
+    [showPageLinks]="false" 
+    [showFirstLastIcon]="false">
+  </p-paginator>
+</div>

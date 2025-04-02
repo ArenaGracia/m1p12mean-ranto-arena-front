@@ -1,0 +1,26 @@
+.layout-footer {
+  background-color: #f0f1f2;  
+  color: #000000;  
+  padding: 20px 30px; 
+  text-align: center; 
+  font-size: 14px;  
+  font-family: 'Arial', sans-serif;
+
+  p {
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .font-italic {
+    font-style: italic;
+  }
+
+  border-top: 1px solid #bdc3c7;  
+}
+
+@media (max-width: 768px) {
+  .layout-footer {
+    font-size: 12px;  
+    padding: 15px 20px;  
+  }
+}

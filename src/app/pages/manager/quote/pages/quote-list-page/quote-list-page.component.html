@@ -1,0 +1,21 @@
+
+<p-card>
+    @if (!isloading) {
+        
+        <div class="flex justify-end my-4">
+            <p-select [options]="states" [(ngModel)]="selectedState" (onChange)="onStateSelect($event)"  optionLabel="name" placeholder="Selectionnez un etat" class="md:w-56" />
+        </div>
+
+        <app-quote-list 
+            [title]="'Liste des Devis'" 
+            [quotes]="quotes"
+            [messageService]="messageService"
+            [confirmationService]="confirmationService"
+            [showValidationButton]="false"
+        ></app-quote-list>
+    } @else {
+        <app-loading-spinner [height]="'15cm'"></app-loading-spinner>
+    }
+</p-card>
+
+<p-toast></p-toast>
