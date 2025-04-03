@@ -11,7 +11,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
     console.log('Mise en place du token' + token);
     
-    const authReq = (token && ! urlException.some(url => req.url.includes(url)))
+    const authReq = (token && token !== null && ! urlException.some(url => req.url.includes(url)))
         ? req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) })
         : req;
     console.log(authReq);
