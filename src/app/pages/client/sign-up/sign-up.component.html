@@ -1,0 +1,131 @@
+<div class="space"></div>
+<div class="container-page flex align-items-center justify-content-center mt-auto h-screen ">
+	<p-card class="shadow-2 lg:w-4">
+		<div class="text-center mb-5">
+			<img src="assets/images/car-logo.jpg" alt="Image" height="50" class="mb-3">
+			<div class="text-900 text-3xl font-medium mb-3">Bienvenue !</div>
+			<span class="text-600 font-medium line-height-3">Inscrivez-vous</span>
+		</div>
+	
+		<div>
+			<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+                <label for="name" class="block text-900 font-medium mb-2">Nom</label>
+				<input
+					pInputText
+					id="name" 
+					type="text" 
+					placeholder="Nom" 
+					formControlName="name"
+					class="w-full"
+					size="sm"
+					required
+					[ngClass]="{
+						'ng-invalid':
+							f['name'].invalid && f['name'].touched
+					}"
+				/>
+				<small
+					*ngIf="f['name'].invalid && f['name'].touched"
+					class="text-danger">
+					Le nom est requis.
+				</small>
+
+                <label for="first_name" class="block text-900 font-medium mb-2">Prénom</label>
+				<input
+					pInputText
+					id="first_name" 
+					type="text" 
+					placeholder="Nom" 
+					formControlName="first_name"
+					class="w-full"
+					size="sm"
+					required
+					[ngClass]="{
+						'ng-invalid':
+							f['first_name'].invalid && f['first_name'].touched
+					}"
+				/>
+				<small
+					*ngIf="f['first_name'].invalid && f['first_name'].touched"
+					class="text-danger">
+					Le prénom est requis.
+				</small>
+
+				<label for="email" class="block text-900 font-medium mb-2">Email</label>
+				<input
+					pInputText
+					id="email" 
+					type="text" 
+					placeholder="Email address" 
+					formControlName="email"
+					class="w-full"
+					size="sm"
+					required
+					[ngClass]="{
+						'ng-invalid':
+							f['email'].invalid && f['email'].touched
+					}"
+				/>
+				<small
+					*ngIf="f['email'].invalid && f['email'].touched"
+					class="text-danger">
+					L'email est requis.
+				</small>
+		
+				<label for="password" class="block text-900 font-medium mt-3 mb-2">Password</label>
+				<input 
+					pInputText 
+					id="password" 
+					type="password"
+					placeholder="Password" 
+					formControlName="password"
+					class="w-full mb-3"
+					[ngClass]="{
+						'ng-invalid':
+							f['password'].invalid && f['password'].touched
+					}"
+				>
+				<small
+					*ngIf="f['password'].invalid && f['password'].touched"
+					class="text-danger">
+					Le mot de passe est requis.
+				</small>
+
+				<label for="contact" class="block text-900 font-medium mt-3 mb-2">Contact</label>
+				<input 
+					pInputText 
+					id="contact" 
+					type="contact"
+					placeholder="+261 xx xx xxx xx" 
+					formControlName="contact"
+					class="w-full mb-3"
+					[ngClass]="{
+						'ng-invalid':
+							f['contact'].invalid && f['contact'].touched
+					}"
+				>
+				<small
+					*ngIf="f['contact'].invalid && f['contact'].touched"
+					class="text-danger">
+					Le contact est requis.
+				</small>
+
+				<div class="text-center m-4">
+					<span class="text-muted fs-6">
+					Déjà membre ?  
+					<a [routerLink]="['/client/login']" class="text-primary fw-bold text-decoration-none">
+						Se connecter
+					</a>
+					</span>
+				</div>
+
+				<p-message *ngIf="errorMessage" severity="error" class="mt-3">
+					{{errorMessage}}
+				</p-message>
+
+				<button pButton pRipple label="S'inscrire" icon="pi pi-user" class="w-full" type="submit"></button>
+			</form>
+		</div>
+	</p-card>
+</div>
+<div class="space"></div>s

@@ -28,23 +28,29 @@ import { MessageModule } from 'primeng/message';
     FormsModule,
     MessageModule
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './sign-up.component.html',
+  styleUrl : './sign-up.component.scss'
 })
-export class LoginClientComponent { 
-  loginForm : FormGroup = this.fb.group({
-      email:  ['mitia@gmail.com', [Validators.required, Validators.email]],
-      password: ['mitia', Validators.required]
+export class SignUpComponent { 
+  signUpForm : FormGroup = this.fb.group({
+      name: ['', Validators.required],
+      first_name: ['', Validators.required],
+      email:  ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      contact: ['', Validators.required]
   });
   errorMessage: string = '';
 
   constructor (private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   onSubmit () {
-      const email = this.loginForm.get('email')?.value;
-      const mdp = this.loginForm.get('password')?.value;
+      const email = this.signUpForm.get('email')?.value;
+      const mdp = this.signUpForm.get('password')?.value;
+      const name = this.signUpForm.get('name')?.value;
+      const first_name = this.signUpForm.get('firstname')?.value;
+      const contact = this.signUpForm.get('contact')?.value;
       
-      this.auth.login(email, mdp).subscribe({
+      this.auth.signup(name, first_name, email, mdp, contact).subscribe({
           next: (res) => {
             this.auth.saveToken(res.token);
             this.router.navigate(['/client/quote']);
@@ -56,7 +62,7 @@ export class LoginClientComponent {
         });
   }
   
-  get f() { return this.loginForm.controls; }
+  get f() { return this.signUpForm.controls; }
 
 
 }
