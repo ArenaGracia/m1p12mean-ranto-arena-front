@@ -49,11 +49,11 @@
         <ng-template pTemplate="body" let-task>
             @if(tasks.length > 0) {
                 <tr>
-                    <td>{{ task.prestation_brand.prestation.name }}</td>
-                    <td>{{ task.prestation_brand.prestation.category.name }}</td>
-                    <td>{{ task.prestation_brand.brand.name }}</td>
+                    <td>{{ task.quote_details.prestation_brand.prestation.name }}</td>
+                    <td>{{ task.quote_details.prestation_brand.prestation.category.name }}</td>
+                    <td>{{ task.quote_details.prestation_brand.brand.name }}</td>
                     <td>{{ task.date_start | date : "d MMMM yyyy HH:mm" }}</td>
-                    <td>{{ task.prestation_brand.duration }} minutes</td>
+                    <td>{{ task.quote_details.prestation_brand.duration }} minutes</td>
                     @if (affectation && !task.user) {
                         <td><p-button label="Affecter" [raised]="true"  size="small"(onClick)="openDialog(task)" /></td>
                     } @else if (!affectation && !mecanicienProfile) {
