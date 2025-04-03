@@ -47,7 +47,7 @@ export class SignUpComponent {
       const email = this.signUpForm.get('email')?.value;
       const mdp = this.signUpForm.get('password')?.value;
       const name = this.signUpForm.get('name')?.value;
-      const first_name = this.signUpForm.get('firstname')?.value;
+      const first_name = this.signUpForm.get('first_name')?.value;
       const contact = this.signUpForm.get('contact')?.value;
       
       this.auth.signup(name, first_name, email, mdp, contact).subscribe({

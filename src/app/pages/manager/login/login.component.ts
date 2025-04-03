@@ -51,7 +51,7 @@ export class LoginComponent {
             },
             error: (err) => {
                 this.errorMessage = err.error.message;
-                console.error(err)
+                console.error(err.error.message)
             }
           });
     }
