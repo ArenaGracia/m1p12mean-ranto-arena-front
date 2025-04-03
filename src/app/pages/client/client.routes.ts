@@ -5,6 +5,7 @@ import { CategoryDetailComponent } from "./category-detail/category-detail.compo
 import { QuoteComponent } from "./quote/quote.component";
 import { AuthGuard } from "../../core/guards/auth.guard";
 import { QuoteDetailsComponent } from "./quote-details/quote-details.component";
+import { CarComponent } from "./car/car.component";
 
 
 export default [
@@ -18,5 +19,11 @@ export default [
         canActivate: [AuthGuard],
         data: { profile: 'Client' },
         component: QuoteComponent
+    },
+    { 
+        path: 'car',
+        canActivate: [AuthGuard],
+        data: { profile: 'Client' },
+        component: CarComponent
     },
 ] as Routes;

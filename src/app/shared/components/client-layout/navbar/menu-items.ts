@@ -21,11 +21,18 @@ export function getMenuItems(navbarComponent: NavbarComponent, isLoggedIn : bool
   ];
 
   if (isLoggedIn) {
-    menuItems.push({
-      label: "Devis",
-      icon: "fas fa-envelope",
-      command: () => navbarComponent.navigateTo("/client/quote")
-    });
+    menuItems.push(
+      {
+        label: "Devis",
+        icon: "fas fa-envelope",
+        command: () => navbarComponent.navigateTo("/client/quote")
+      },
+      {
+        label: "Voitures",
+        icon: "fas fa-car",
+        command: () => navbarComponent.navigateTo("/client/car")
+      }
+  );
   }
 
   return menuItems;

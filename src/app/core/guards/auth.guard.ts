@@ -22,8 +22,8 @@ export class AuthGuard implements CanActivate {
             return false;
         }
 
-            const expectedRole = route.data['profile'];
-            const payload = JSON.parse(atob(token.split('.')[1]));
+        const expectedRole = route.data['profile'];
+        const payload = JSON.parse(atob(token.split('.')[1]));
 
         if (expectedRole && payload.profile !== expectedRole) {
             console.log(`Profil autorisé(s): ${expectedRole}. Votre profil : ${payload.profile} `);

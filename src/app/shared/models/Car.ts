@@ -1,4 +1,5 @@
 import { Brand } from "./Brand";
+import { User } from "./User";
 
 export class Car {
   id: string = "";
