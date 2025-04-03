@@ -31,6 +31,16 @@ export const items: MenuItem[] = [
         ]
     },
     {
+        label: 'Rendez-vous',
+        items: [
+            {
+                label: 'Calendrier',
+                icon: 'pi pi-calendar',
+                url: '/manager/appointment',
+            }
+        ]
+    },
+    {
         label: 'Tâches',
         items: [
             {

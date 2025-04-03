@@ -22,7 +22,7 @@
                 <td class="flex gap-2">
                     <p-button icon="pi pi-eye" [text]="true" severity="secondary" [routerLink]="'/manager/quote/details/' + quoteItem._id" pTooltip="Details" tooltipPosition="top"/>
                     <p-button label="Valider" icon="pi pi-check" severity="success" [raised]="true"  (onClick)="confirm(quoteItem._id, 'valider')"  size="small" *ngIf="showValidationButton"/>
-                    <p-button label="Annuler" icon="pi pi-times" severity="danger" [raised]="true"  (onClick)="confirm(quoteItem._id, 'annuler')"  size="small" *ngIf="showValidationButton"/>
+                    <p-button label="Annuler" icon="pi pi-times" severity="danger" [raised]="true"  (onClick)="confirm(quoteItem._id, 'annuler', quoteItem.appointment.user.email)"  size="small" *ngIf="showValidationButton"/>
                 </td>
             </tr>
         </ng-template>

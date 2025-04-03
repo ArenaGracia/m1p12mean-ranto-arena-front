@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Prestation } from '../../../../../shared/models/Prestation';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
@@ -9,6 +9,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { PrestationService } from '../../../../../core/service/prestation.service';
 import { MessageBlockComponent } from '../../../../../shared/components/message-block/message-block.component';
 import { PrestationFormComponent } from '../prestation-form/prestation-form.component';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
     selector: 'app-prestation-list',
@@ -18,6 +21,9 @@ import { PrestationFormComponent } from '../prestation-form/prestation-form.comp
         TableModule,
         ButtonModule,
         Dialog,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
         PrestationFormComponent,
         MessageBlockComponent
     ],
@@ -63,6 +69,12 @@ export class PrestationListComponent {
             reject: () => {
             }
         });
+    }
+
+    
+    onFilterGlobal(event: Event, table: Table) {
+        const inputElement = event.target as HTMLInputElement;
+        table.filterGlobal(inputElement.value, 'contains');
     }
 
 }
