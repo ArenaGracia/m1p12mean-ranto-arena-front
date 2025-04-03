@@ -19,7 +19,7 @@
                 </p-floatlabel>
             
                 <p-floatlabel variant="on" class="w-full">
-                    <p-select inputId="Etat" optionLabel="name" [(ngModel)]="filters.state" optionValue="_id" styleClass="w-full" />
+                    <p-select inputId="Etat" [options]="states"  optionLabel="name" [(ngModel)]="filters.stateId" optionValue="_id" styleClass="w-full" />
                     <label for="Etat">État</label>
                 </p-floatlabel>
             
@@ -59,7 +59,7 @@
                     } @else if (!affectation && !mecanicienProfile) {
                         <td *ngIf="task.user">{{ task.user.name }} {{ task.user.first_name }}</td>
                         <td *ngIf="!task.user">Aucun</td>
-                        <td *ngIf="task.user">{{ task.state.name }}</td>
+                        <td *ngIf="task.user">{{ task.quote_details.task.task_state.name }}</td>
                         <td *ngIf="!task.user">Non affectée</td>
                     } @else if (mecanicienProfile) {
                         <td><p-button label="Terminer" [raised]="true" severity="success" size="small" /></td>

@@ -21,6 +21,8 @@ import { FloatLabel } from "primeng/floatlabel";
 import { DatePicker } from 'primeng/datepicker';
 import { Category } from '../../../../../shared/models/Category';
 import { CategoryService } from '../../../../../core/service/category.service';
+import { State } from '../../../../../shared/models/State';
+import { StateService } from '../../../../../core/service/state.service';
 
 @Component({
   selector: 'app-task-list',
@@ -59,6 +61,7 @@ export class TaskListComponent {
     showAffectationDialog: boolean = false;
     mecaniciens: Mecanicien[] = [];
     categories: Category[] = [];
+    states: State[] = [];
     selectedMecanicien: Mecanicien = new Mecanicien();
     selectedTask?: any;
 
@@ -67,13 +70,13 @@ export class TaskListComponent {
         userId: null,
         startDate: null,
         endDate: null,
-        state: null,
+        stateId: null,
         categoryId: null
     };
 
     first: number = 0;
 
-    constructor(private userService: UserService, private taskService: TaskService, private categoryService: CategoryService) {}
+    constructor(private userService: UserService, private taskService: TaskService, private categoryService: CategoryService, private stateService: StateService) {}
 
     ngOnInit() {
         this.userService.getAllMecaniciens().subscribe((mecaniciens) => {
@@ -81,6 +84,9 @@ export class TaskListComponent {
         });
         this.categoryService.getCategories().subscribe((categories) => {
             this.categories = categories;
+        });
+        this.stateService.getAllStates('task').subscribe((states) => {
+            this.states = states;
         });
     }
 
