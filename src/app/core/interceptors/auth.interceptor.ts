@@ -10,7 +10,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     const token = localStorage.getItem('access_token'); 
     
 
-    const authReq = token
+    const authReq = (token && token !== null && ! urlException.some(url => req.url.includes(url)))
         ? req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) })
         : req;
     
