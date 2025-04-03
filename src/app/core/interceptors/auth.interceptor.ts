@@ -5,16 +5,21 @@ import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
-    const urlException = ['auth/login']; // url qui n'a pas besoin de token
+<<<<<<< Updated upstream
+=======
+    const urlException = ['auth/login'];
 
+>>>>>>> Stashed changes
     const token = localStorage.getItem('access_token'); 
-
-    console.log('Mise en place du token' + token);
     
-    const authReq = (token && ! urlException.some(url => req.url.includes(url)))
+
+    const authReq = token
         ? req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) })
         : req;
+<<<<<<< Updated upstream
     console.log(authReq);
+    return next(authReq);
+=======
 
     
     const router = inject(Router);
@@ -23,10 +28,10 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     return next(authReq).pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 401) {
-            // Redirection vers la page de connexion en cas de réponse 401 (token expiré ou invalide)
             router.navigate(['/reconnect']);
           }
           return throwError(error); 
         })
     );;
+>>>>>>> Stashed changes
 };
