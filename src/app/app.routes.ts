@@ -9,6 +9,7 @@ import { LayoutComponent } from './shared/components/client-layout/layout/layout
 import { AuthGuard } from './core/guards/auth.guard';
 import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 import { ReconnectComponent } from './shared/components/reconnect/reconnect.component';
+import { SignUpComponent } from './pages/client/sign-up/sign-up.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/client/accueil', pathMatch: "full"},
@@ -31,6 +32,7 @@ export const routes: Routes = [
     },
     { path: 'manager/login', component: LoginComponent},
     { path: 'client/login', component: LoginClientComponent},
+    { path: 'client/sign-up', component: SignUpComponent},
     { path: 'mecanicien/login', component: LoginMecanicienComponent},
     { path: 'notfound', component: NotfoundComponent },
     { path: 'unauthorized', component: UnauthorizedComponent },
