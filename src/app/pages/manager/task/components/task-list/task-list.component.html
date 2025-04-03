@@ -59,7 +59,7 @@
                     } @else if (!affectation && !mecanicienProfile) {
                         <td *ngIf="task.user">{{ task.user.name }} {{ task.user.first_name }}</td>
                         <td *ngIf="!task.user">Aucun</td>
-                        <td *ngIf="task.user">{{ task.quote_details.task.task_state.name }}</td>
+                        <td *ngIf="task.user">{{ task.task_state.name }}</td>
                         <td *ngIf="!task.user">Non affectée</td>
                     } @else if (mecanicienProfile) {
                         <td><p-button label="Terminer" [raised]="true" severity="success" size="small" /></td>

@@ -73,7 +73,7 @@ export const items: MenuItem[] = [
             {
                 label: 'Suivi des performances',
                 icon: 'pi pi-cog',
-                url: '',
+                url: '/manager/performances',
             },
         ]
     }
