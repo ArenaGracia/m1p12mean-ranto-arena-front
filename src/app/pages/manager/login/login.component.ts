@@ -25,7 +25,6 @@ import { MessageModule } from 'primeng/message';
         RippleModule,
         CardModule,
         ReactiveFormsModule,
-        FormsModule,
         MessageModule
     ],
     templateUrl: './login.component.html',
@@ -47,7 +46,7 @@ export class LoginComponent {
         this.auth.login(email, mdp).subscribe({
             next: (res) => {
               this.auth.saveToken(res.token);
-              this.router.navigate(['/manager/empty']);
+              this.router.navigate(['/manager/revenue']);
             },
             error: (err) => {
                 this.errorMessage = err.error.message;

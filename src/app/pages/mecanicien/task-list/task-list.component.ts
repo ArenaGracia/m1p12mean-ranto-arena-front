@@ -5,6 +5,8 @@ import { TaskService } from '../../../core/service/task.service';
 import { CardModule } from 'primeng/card';
 import { TaskListComponent } from '../../manager/task/components/task-list/task-list.component';
 import { AuthService } from '../../../core/service/auth.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-task-mecanicien-list',
@@ -13,8 +15,9 @@ import { AuthService } from '../../../core/service/auth.service';
         CommonModule,
         TaskListComponent,
         CardModule,
-
+        ToastModule
     ],
+    providers: [ MessageService ],
     templateUrl: './task-list.component.html',
 })
 export class TaskListMecanicienComponent { 
@@ -24,7 +27,7 @@ export class TaskListMecanicienComponent {
     filters: any = {};
 
 
-    constructor(private authService: AuthService, private taskService: TaskService) {}
+    constructor(private authService: AuthService, private taskService: TaskService, public messageService: MessageService) {}
 
     ngOnInit() {
         this.getTasks();

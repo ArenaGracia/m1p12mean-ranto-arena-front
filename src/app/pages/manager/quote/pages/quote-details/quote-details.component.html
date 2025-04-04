@@ -24,7 +24,8 @@
                     <div class="mr-5 flex align-items-center mt-3">
                         <i class="pi pi-clock mr-2"></i>
                         <span>
-                            {{quote?.appointment?.time_start | date : "d MMMM yyyy HH:mm" }}  
+                            {{quote?.appointment?.time_start | date : "d MMMM yyyy HH:mm" }} 
+                            <span *ngIf="quote?.appointment?.time_end">à {{quote?.appointment?.time_end | date : "d MMMM yyyy HH:mm" }}</span>
                         </span>
                     </div>
                     <div *ngIf="quote?.discount != 0" class="flex align-items-center mt-3">
@@ -35,32 +36,32 @@
 
                 <!-- Details du payement -->
 
-                <div class="flex align-items-center text-700 flex-wrap" *ngIf="quote?.quote_state?.value == 2">
-                    <div class="mr-5 flex align-items-center mt-3">
+                <div class="flex align-items-center text-700 flex-wrap mt-3" *ngIf="quote?.quote_state?.value == 2 || quote?.quote_state?.value == 3">
+                    <div class="mr-5 flex align-items-center ">
                         <div>Total montant payé :</div>
                         <span>{{(paymentSummary?.total_paid || 0)  | montant}}</span>
                     </div>
-                    <div class="mr-5 flex align-items-center mt-3">
+                    <div class="mr-5 flex align-items-center ">
                         <div>Montant restant à payer :</div>
                         <span>{{paymentSummary?.amount_remaining | montant}}</span>
                     </div>
-                    <div class="mt-3 lg:mt-0">
+                    <div class=" lg:mt-0">
                         <button pButton pRipple label="Procéder au payement" class="p-button-outlined mr-2" icon="pi pi-money-bill" (click)="showPaymentDialog =true" *ngIf="paymentSummary?.amount_remaining != 0"></button>
                     </div>
                 </div>
+                <!-- etat terminé -->
+                <div class="mt-3">
+                    @if(quote?.appointment?.appointment_state.value != 3) {
+                        <button pButton pRipple label="Terminer Rendez-vous" severity="success" icon="pi pi-sign-out" (click)="confirm('terminer')" [raised]="true" [disabled]="paymentSummary?.amount_remaining != 0" ></button>
+                    } @else {
+                        <div class="text-success"><i class="pi pi-check"></i> Rendez-vous Terminé</div>
+                    }
+                </div>
             </div>
-            <div class="flex gap-3 mt-3 lg:mt-0">
-                <div *ngIf="quote?.quote_state?.value == 1" class="flex gap-3">
+            <div class="flex gap-3 mt-3 lg:mt-0" *ngIf="quote?.quote_state?.value == 1" class="flex gap-3">
                     <button pButton pRipple [label]="quote?.discount != 0 ? 'Modifier Remise' : 'Ajouter Remise'"  class="p-button-outlined" [icon]="quote?.discount != 0 ? 'pi pi-pencil' : 'pi pi-plus'" (click)="addDiscountVisible = true" ></button>
                     <button pButton pRipple label="Suggérer une autre Date" class="p-button-outlined" icon="pi pi-clock" (click)="showUpdateDate =true"></button>
                     <button pButton pRipple label="Valider" icon="pi pi-check" (click)="confirm('validation')" [raised]="true" ></button>
-                </div>
-                <!-- etat terminé -->
-                @if(quote?.appointment?.appointment_state.value != 3) {
-                    <button pButton pRipple label="Terminer Rendez-vous" severity="success" icon="pi pi-sign-out" (click)="confirm('terminer')" [raised]="true" [disabled]="paymentSummary?.amount_remaining != 0" ></button>
-                } @else {
-                    <div class="text-success"><i class="pi pi-check"></i> Rendez-vous Terminé</div>
-                }
             </div>
 
         </div>
@@ -99,7 +100,7 @@
 <p-dialog header="Suggérer une nouvelle date de Rendez-vous" [modal]="true" [(visible)]="showUpdateDate" [style]="{ width: '25rem' }">
     <span class="p-text-secondary block mb-3">Un email sera envoyé au client pour qu'il puisse valider.</span>
     <p-floatlabel variant="on" class="mb-4">
-        <p-datepicker [(ngModel)]="this.newDate" [showTime]="true" [hourFormat]="'24'" inputId="on_label" showIcon iconDisplay="input" appendTo="body" />
+        <p-datepicker [(ngModel)]="this.newDate" [showTime]="true" [hourFormat]="'24'" inputId="on_label" showIcon iconDisplay="input" dateFormat="dd/mm/yy" appendTo="body" />
         <label for="on_label">Nouvelle Date</label>
     </p-floatlabel>
     <div class="flex justify-end gap-2">

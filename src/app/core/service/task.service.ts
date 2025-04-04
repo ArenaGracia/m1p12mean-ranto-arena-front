@@ -34,4 +34,8 @@ export class TaskService {
   affect(taskId: string, userId: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/affect/`, {taskId, userId});
   }
+
+  end(taskId: string, estimatedDuration: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/end`, {taskId, estimatedDuration});
+  }
 }

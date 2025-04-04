@@ -9,12 +9,12 @@
                 </p-floatlabel>
             
                 <p-floatlabel variant="on" class="w-full">
-                    <p-datepicker inputId="debut" [(ngModel)]="filters.startDate" showIcon iconDisplay="input" dateFormat="yy-mm-dd"/>
+                    <p-datepicker inputId="debut" [(ngModel)]="filters.startDate" showIcon iconDisplay="input" dateFormat="dd/mm/yy"/>
                     <label for="debut">Date début</label>
                 </p-floatlabel>
             
                 <p-floatlabel variant="on" class="w-full">
-                    <p-datepicker inputId="fin" [(ngModel)]="filters.endDate" showIcon iconDisplay="input" dateFormat="yy-mm-dd"/>
+                    <p-datepicker inputId="fin" [(ngModel)]="filters.endDate" showIcon iconDisplay="input" dateFormat="dd/mm/yy"/>
                     <label for="fin">Date fin</label>
                 </p-floatlabel>
             
@@ -62,7 +62,7 @@
                         <td *ngIf="task.user">{{ task.task_state.name }}</td>
                         <td *ngIf="!task.user">Non affectée</td>
                     } @else if (mecanicienProfile) {
-                        <td><p-button label="Terminer" [raised]="true" severity="success" size="small" /></td>
+                        <td><p-button label="Terminer" [raised]="true" severity="success" size="small" (click)="onTerminerClick(task, $event)"/></td>
                     }
                 </tr>
             } @else {
@@ -89,3 +89,13 @@
         <p-button label="Affecter" (click)="confirmAffectation($event)" />
     </div>
 </p-dialog>
+
+
+<p-popover #op>
+    <h6>Entrer la durée de votre tâche</h6>
+    <p-floatlabel variant="on" class="m-3">
+        <p-inputnumber [(ngModel)]="estimatedDuration" inputId="duree" size="small" />
+        <label for="duree">Durée estimée</label>
+    </p-floatlabel>
+    <p-button size="small" label="enregistrer" class="justify-content-end" [disabled]="estimatedDuration <= 0" (onClick)="endTask()"></p-button>
+</p-popover>

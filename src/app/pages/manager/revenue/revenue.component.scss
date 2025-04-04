@@ -1,0 +1,33 @@
+.surface-container {
+    padding: 1rem;
+    border-radius: 12px;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .revenue-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-right: 1rem;
+  }
+  
+  .label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  
+  .amount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  

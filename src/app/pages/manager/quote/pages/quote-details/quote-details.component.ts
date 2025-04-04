@@ -178,6 +178,7 @@ export class QuoteDetailsComponent {
                 } else if (type === 'terminer') {
                     this.appointmentService.endAppointment(this.quote.appointment._id, this.quote._id, this.paymentSummary?.amount_remaining).subscribe({
                         next : () => {
+                            if (this.quote?.appointment?.appointment_state.value !== undefined) { this.quote.appointment.appointment_state.value = 3; }
                             this.messageService.add({ severity: 'info', summary: 'Términé', detail: 'Rendez-vous marqué comme terminé', life: 3000 });
                         }, error : (error: any) => {
                             this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });

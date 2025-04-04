@@ -16,6 +16,16 @@ export const mecanicienItem: MenuItem[] = [
  
 export const items: MenuItem[] = [
     {
+        label: 'DashBoard',
+        items: [
+            {
+                label: 'Chiffre d\'affaire',
+                icon: 'pi pi-dollar',
+                url: '/manager/revenue',
+            }
+        ]
+    },
+    {
         label: 'Devis',
         items: [
             {
