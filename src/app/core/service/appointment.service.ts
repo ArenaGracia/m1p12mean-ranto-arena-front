@@ -23,4 +23,8 @@ export class AppointmentService {
     endAppointment (appointmentId: string, quoteId: string, appointmentLeft: number): Observable<any> {
         return this.http.put(`${this.apiUrl}/end`, {appointmentId, quoteId, appointmentLeft});
     }
+
+    createAppointment(appointment: any): Observable<any> {
+        return this.http.post<Appointment>(this.apiUrl, appointment);
+    }
 }

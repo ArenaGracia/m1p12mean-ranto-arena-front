@@ -3,7 +3,7 @@
     <div class="card-caroussel">
         <div class="header">
             <h2 class="title">Liste des devis</h2>
-            <button class="btn">+ Devis</button>
+            <button class="btn" [routerLink]="['/client/create-quote']">+ Devis</button>
         </div>
         
         <div class="space"></div>
@@ -20,6 +20,7 @@
                     <th style="width:15%">Date prévue</th>
                     <th style="width:15%">Voiture</th>
                     <th style="width:15%">Remise</th>
+                    <th style="width: 15%;">Status</th>
                     <th style="width:15%" class="price-number" >Montant à payer</th>
                     <th style="width:15%"></th>
                 </tr>
@@ -29,6 +30,9 @@
                     <td>{{ quote.appointment.time_start | date : "d MMMM yyyy à HH:mm" }}</td>
                     <td>{{ quote.appointment.car.license_plate_number }}</td>
                     <td >{{ quote.discount }} %</td>
+                    <td>
+                        <p-badge [value]="quote.quote_state.name" [severity]="getSeverityColor(quote.quote_state.name)" />
+                    </td>
                     <td class="price-number">{{ quote.final_price | montant}}</td>
 
                     <td class="price-number">
