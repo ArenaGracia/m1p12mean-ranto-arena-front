@@ -1,4 +1,4 @@
-    <div class="caroussel">
+    <div class="row">
         <div class="caroussel-info">
             <h2>Offrez le Meilleur à Votre Voiture !</h2>
             <br />
@@ -16,5 +16,27 @@
     <div class="expertise">
         <h1>Nos expertises</h1>
         <p><i>Notre spécialité se repose surtout sur ces marques</i></p>
+        <div class="caroussel-liste">
+            <p-carousel 
+                    [value]="marques" 
+                    [numVisible]="3" 
+                    [numScroll]="3" 
+                    [circular]="false" 
+                    [responsiveOptions]="responsiveOptions"
+                    autoplayInterval="3000">
+            
+                    <ng-template let-marque #item>
+                        <div class="border-surface m-2 p-4">
+                            <div class="flex-grow">
+                                <img
+                                    src="data:image/jpeg;base64, {{ marque.image }}"
+                                    [alt]="marque.name"
+                                    style=" height: 120px; margin-left: 25%;" />
+                            </div>
+            
+                        </div>
+                    </ng-template>
+                </p-carousel>
+        </div>
     </div>
   
