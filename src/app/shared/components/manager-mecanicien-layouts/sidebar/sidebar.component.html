@@ -11,7 +11,7 @@
     </ng-template>
   </p-panelmenu>
 </div> -->
-
+<div class="sidebar-overlay" [ngClass]="{ 'active': isSidebarHidden && isMobile }" (click)="toggleSidebar()"></div>
 <div class="sidebar">
   <p-menu [model]="items" class="flex justify-center" styleClass="w-full">
       <ng-template #submenuheader let-item>

@@ -21,6 +21,7 @@ import { EmailService } from '../../../../../core/service/email.service';
 import { QuoteDetailsListComponent } from '../../components/quote-details-list/quote-details-list.component';
 import { PaymentFormComponent } from '../../components/payment-form/payment-form.component';
 import { PaymentService } from '../../../../../core/service/payment.service';
+import { AppointmentService } from '../../../../../core/service/appointment.service';
 
 @Component({
   selector: 'app-quote-details',
@@ -61,6 +62,7 @@ export class QuoteDetailsComponent {
 	constructor (
 		private quoteService: QuoteService, 
         private paymentService: PaymentService, 
+        private appointmentService: AppointmentService,
 		private route: ActivatedRoute, 
 		private router: Router,
 		public confirmationService: ConfirmationService,
@@ -154,22 +156,16 @@ export class QuoteDetailsComponent {
         } else if (type === 'newDate') {
             this.dialogHeader = 'Confirmation de cette nouvelle date de rendez-vous';
             this.dialogMessage = 'Le rendez-vous aura lieu à cette date et un email sera envoyé';
+        } else if (type === 'terminer') {
+            this.dialogHeader = 'Confirmation';
+            this.dialogMessage = 'Voulez-vous terminer cet rendez-vous ?';
         }
         this.confirmationService.confirm({
             header: this.dialogHeader,
             message: this.dialogMessage,
             icon: 'pi pi-exclamation-circle',
-            rejectButtonProps: {
-                label: 'Annuler',
-                icon: 'pi pi-times',
-                outlined: true,
-                size: 'small'
-            },
-            acceptButtonProps: {
-                label: 'Valider',
-                icon: 'pi pi-check',
-                size: 'small'
-            },
+            rejectButtonProps: { label: 'Annuler', icon: 'pi pi-times', outlined: true, size: 'small' },
+            acceptButtonProps: { label: 'Valider', icon: 'pi pi-check', size: 'small' },
             accept: () => {
                 if (type === 'validation') {
                     this.validateQuote();
@@ -179,12 +175,20 @@ export class QuoteDetailsComponent {
                 } else if (type === 'newDate') {
                     this.showUpdateDate = false;
                     this.SendEmailConfirmationNewDate();
+                } else if (type === 'terminer') {
+                    this.appointmentService.endAppointment(this.quote.appointment._id, this.quote._id, this.paymentSummary?.amount_remaining).subscribe({
+                        next : () => {
+                            if (this.quote?.appointment?.appointment_state.value !== undefined) { this.quote.appointment.appointment_state.value = 3; }
+                            this.messageService.add({ severity: 'info', summary: 'Términé', detail: 'Rendez-vous marqué comme terminé', life: 3000 });
+                        }, error : (error: any) => {
+                            this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
+                        }
+                    });
                 }
             },
             reject: () => { }
         });
     }
-
     
     onPaymentSaved(payment: any) {
         this.getPaymentSummary(this.quote?._id);

@@ -1,0 +1,66 @@
+$color: #e94016;
+
+.space {
+    height: 60px;
+}
+
+.card-caroussel {
+    margin-top: 90px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.error{
+    color: $color;
+}
+
+.custom-width {
+    width: 230px !important;
+}
+
+.input-group {
+    margin-left: 460px; 
+}
+
+.content {
+    display: grid;
+    margin-left: 160px;
+    grid-template-columns: repeat(3, 400px); 
+    gap: 10px; 
+    padding: 10px;
+}
+
+.footer-content {
+    margin-left: 42%;
+}
+
+@media screen and (max-width: 1024px) {
+    .input-group {
+        margin-left: 30px; 
+    }
+
+    .content {
+        display: block; 
+        margin-left: 0; 
+        grid-template-columns: 1fr 1fr; 
+    }
+
+    .footer-content {
+        margin-left: 15%; 
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .input-group {
+        margin-left: 50px;
+    }
+
+    .content {
+        grid-template-columns: 1fr; 
+        margin-left: 0;
+    }
+
+    .footer-content {
+        margin-left: 10%;
+    }
+}

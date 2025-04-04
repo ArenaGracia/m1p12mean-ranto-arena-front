@@ -7,17 +7,19 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 import { MontantPipe } from '../../../shared/pipes/montant.pipe';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
+import { TagModule } from 'primeng/tag';
+import { BadgeModule } from 'primeng/badge';
 
 @Component({
   selector: 'app-quote',
   standalone: true,
-  imports: [TableModule, CommonModule, LoadingSpinnerComponent, MontantPipe, ButtonModule, RouterLink],
+  imports: [TableModule, CommonModule, LoadingSpinnerComponent, MontantPipe, ButtonModule, RouterLink, TagModule, BadgeModule],
   templateUrl: './quote.component.html',
   styleUrl: './quote.component.scss'
 })
 
 export class QuoteComponent implements OnInit {
-  quotes : Quote[] = [];
+  quotes : any[] = [];
   isLoading : boolean = true;
 
   constructor(private quoteService : QuoteService) {}
@@ -29,9 +31,25 @@ export class QuoteComponent implements OnInit {
   getQuotesUser() : void{
     this.quoteService.getQuoteByUser().subscribe({
       next : (data) => {
-        this.quotes = data ?? [];        
+        this.quotes = data ?? [];   
         this.isLoading = false;
       }
     });
   }
+
+  getSeverityColor(severity: string): 'success' | 'info' | 'warn' | 'danger' {
+    console.log("hkvbsk");
+    
+    switch (severity) {
+      case 'Nouveau':
+        return 'info';
+      case 'Validé':
+        return 'success';
+      case 'Rejeté':
+        return 'danger';
+      default:
+        return 'danger';
+    }
+  }
+  
 }

@@ -1,0 +1,26 @@
+
+<p-card>
+    <h2>{{title}} </h2>
+    <p-table [value]="performances">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Prestation</th>
+                <th>Categorie</th>
+                <th>Mécanicien</th>
+                <th class="text-right">Durée Normale</th>
+                <th class="text-right">Durée Estimé</th>
+                <th class="text-right">performance<th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-performance>
+            <tr>
+                <td>{{ performance.prestation }}</td>
+                <td>{{ performance.category }}</td>
+                <td>{{ performance.user.name }} {{ performance.user.first_name }}</td>
+                <td class="text-right">{{ performance.prestation_duration }}</td>
+                <td class="text-right">{{ performance.estimated_duration}} </td>
+                <td class="text-right">{{ performance.performance}} %</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>

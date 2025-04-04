@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Task } from '../../../../../shared/models/Task';
 import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
@@ -21,6 +21,12 @@ import { FloatLabel } from "primeng/floatlabel";
 import { DatePicker } from 'primeng/datepicker';
 import { Category } from '../../../../../shared/models/Category';
 import { CategoryService } from '../../../../../core/service/category.service';
+import { State } from '../../../../../shared/models/State';
+import { StateService } from '../../../../../core/service/state.service';
+import { OverlayPanel } from 'primeng/overlaypanel';
+
+import { PopoverModule } from 'primeng/popover';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-task-list',
@@ -38,8 +44,10 @@ import { CategoryService } from '../../../../../core/service/category.service';
     IconFieldModule, 
     InputTextModule, 
     InputIconModule,
+    InputNumberModule,
     FloatLabel,
-    DatePicker
+    DatePicker,
+    PopoverModule
   ],
   templateUrl: './task-list.component.html',
 })
@@ -56,9 +64,12 @@ export class TaskListComponent {
     @Input() messageService!: MessageService;
     @Input() confirmationService!: ConfirmationService;
 
+    @ViewChild('op') op!: OverlayPanel;
+
     showAffectationDialog: boolean = false;
     mecaniciens: Mecanicien[] = [];
     categories: Category[] = [];
+    states: State[] = [];
     selectedMecanicien: Mecanicien = new Mecanicien();
     selectedTask?: any;
 
@@ -67,13 +78,15 @@ export class TaskListComponent {
         userId: null,
         startDate: null,
         endDate: null,
-        state: null,
+        stateId: null,
         categoryId: null
     };
 
     first: number = 0;
 
-    constructor(private userService: UserService, private taskService: TaskService, private categoryService: CategoryService) {}
+    estimatedDuration: number = 0; // ce que le mécanicien insert
+
+    constructor(private userService: UserService, private taskService: TaskService, private categoryService: CategoryService, private stateService: StateService) {}
 
     ngOnInit() {
         this.userService.getAllMecaniciens().subscribe((mecaniciens) => {
@@ -81,6 +94,9 @@ export class TaskListComponent {
         });
         this.categoryService.getCategories().subscribe((categories) => {
             this.categories = categories;
+        });
+        this.stateService.getAllStates('task').subscribe((states) => {
+            this.states = states;
         });
     }
 
@@ -122,6 +138,17 @@ export class TaskListComponent {
         });
     }
 
+    endTask() {
+        this.taskService.end(this.selectedTask._id, this.estimatedDuration).subscribe({
+            next: () => {
+                this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'La tâche a été marqué comme terminée', life: 3000 });
+            },
+            error: (error) => {
+                this.messageService.add({ severity: 'error', summary: 'Erreur', detail: error.message, life: 3000 });
+            },
+        });
+    }
+
     openDialog(task: any) {
         this.showAffectationDialog = true;
         this.selectedTask = task;
@@ -130,6 +157,11 @@ export class TaskListComponent {
     closeDialog() {
         this.showAffectationDialog = false;
         this.selectedTask = undefined;
+    }
+
+    onTerminerClick(task: any, event: Event): void {
+        this.selectedTask = task;
+        this.op.toggle(event); // si tu veux toujours ouvrir un popover ou menu
     }
 
     // à chaque changement dans la pagination

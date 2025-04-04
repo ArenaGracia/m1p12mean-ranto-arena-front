@@ -6,6 +6,7 @@ import { QuoteComponent } from "./quote/quote.component";
 import { AuthGuard } from "../../core/guards/auth.guard";
 import { QuoteDetailsComponent } from "./quote-details/quote-details.component";
 import { CarComponent } from "./car/car.component";
+import { QuoteFormComponent } from "./quote-form/quote-form.component";
 
 
 export default [
@@ -13,12 +14,24 @@ export default [
     { path: 'accueil', component: AccueilComponent},
     { path: 'prestation', component: PrestationComponent},
     { path: 'categorie/:id', component: CategoryDetailComponent},
-    { path: 'quote/:id', component: QuoteDetailsComponent},
+    { path: 'create-quote', component: QuoteFormComponent},
     { 
         path: 'quote',
         canActivate: [AuthGuard],
         data: { profile: 'Client' },
         component: QuoteComponent
+    },
+    { 
+        path: 'quote/:id',
+        canActivate: [AuthGuard],
+        data: { profile: 'Client' },
+        component: QuoteDetailsComponent
+    },
+    { 
+        path: 'create-quote',
+        canActivate: [AuthGuard],
+        data: { profile: 'Client' },
+        component: QuoteFormComponent
     },
     { 
         path: 'car',

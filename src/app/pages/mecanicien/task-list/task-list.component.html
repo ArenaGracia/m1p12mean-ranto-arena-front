@@ -4,8 +4,11 @@
       [titre]="'Vos tâches'"
       [tasks]="tasks"
       [affectation]="false"
+      [messageService]="messageService"
       [mecanicienProfile]="true"
       (filtersChanged)="onFiltersChanged($event)"
       (paginationChange)="onPaginationChange($event)"
   ></app-task-list>
 </p-card>
+
+<p-toast/>

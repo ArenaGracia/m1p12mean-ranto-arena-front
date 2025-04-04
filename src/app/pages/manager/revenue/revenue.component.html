@@ -1,0 +1,35 @@
+
+<div class="surface-container">
+    <div class="surface-ground px-2 py-1 md:px-6 lg:px-8">
+        <div class="revenue-box flex align-items-center justify-content-between">
+            <div class="flex align-items-center">
+                <i class="pi pi-chart-line icon"></i>
+                <span class="label">Chiffre d’affaires</span>
+            </div>
+            <span class="amount">{{ totalRevenue }} Ar</span>
+        </div>
+    </div>
+</div>
+
+<div class="row m-5">
+    <div class="flex flex-grid gap-3 col-md-8 m-auto">
+        <p-floatlabel variant="on" class="w-full">
+            <p-datepicker [(ngModel)]="startDate" inputId="start" showIcon iconDisplay="input" dateFormat="dd/mm/yy" class="w-full" />
+            <label for="start">Début</label>
+        </p-floatlabel>
+    
+        <p-floatlabel variant="on" class="w-full">
+            <p-datepicker [(ngModel)]="endDate" inputId="end" showIcon iconDisplay="input" dateFormat="dd/mm/yy" class="w-full" />
+            <label for="end">Fin</label>
+        </p-floatlabel>
+    
+        <p-button type="button" label="Appliquer" [disabled]="!datesChanged()" (onClick)="initGlobalRevenue()"></p-button>
+    </div>
+</div>
+
+<div class="card">
+    <p-chart type="line" [data]="data" [options]="options" class="h-[30rem]" />
+</div>
+
+
+<p-toast></p-toast>

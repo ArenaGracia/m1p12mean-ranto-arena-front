@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../../core/service/auth.service';
@@ -25,14 +25,18 @@ import { AuthService } from '../../../core/service/auth.service';
 export class ReconnectComponent {
   profile!: string;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private route: Router) {}
 
   ngOnInit() {
       const user = this.authService.getUserInfo();
-      this.profile = user.profile
-          .toLowerCase()  
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
+      if (user && user != null) {
+        this.profile = user.profile
+            .toLowerCase()  
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+      } else {
+        this.route.navigate(['/client/login']);
+      }
           
   }
 

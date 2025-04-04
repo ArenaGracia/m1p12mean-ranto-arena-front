@@ -1,7 +1,7 @@
 <h2>{{title}}</h2>
 
 @if (quotes.length > 0) {
-    <p-table [value]="quotes"  class="mt-2" >
+    <p-table [value]="quotes"  class="mt-2 overflow-auto" [tableStyle]="{ 'min-width': '50rem' }"  >
         <ng-template  pTemplate="header">
             <tr>
                 <th>Client</th>

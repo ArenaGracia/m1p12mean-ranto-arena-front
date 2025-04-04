@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy, Input, HostListener } from '@angular/core';
 import { Drawer, DrawerModule } from 'primeng/drawer';
 import { Ripple } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
@@ -26,12 +26,22 @@ export class SidebarComponent {
   items : MenuItem[] = [];
 
   isSidebarHidden = false;
+  isMobile = false;
 
   toggleSidebar() {
       this.isSidebarHidden = !this.isSidebarHidden;
   }
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+    this.checkScreenSize();
+  }
+  @HostListener('window:resize', [])
+  checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768;
+    if (this.isMobile) {
+      this.isSidebarHidden = true; // Cache la sidebar sur mobile
+    }
+  }
 
   ngOnInit() {
     const user = this.authService.getUserInfo();
