@@ -1,1 +1,76 @@
-<p>quote-form works!</p>
+<div class="space"></div>
+<div class="card-caroussel">
+    <p-stepper [(value)]="activeStep" class="basis-[40rem]">
+        <p-step-list>
+            <p-step [value]="1">Rendez-vous</p-step>
+            <p-step [value]="2">Prestations</p-step>
+        </p-step-list>
+
+        <p-step-panels>
+            <!-- Etape 1: Rendez-vous -->
+            <p-step-panel [value]="1">
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="text-center mt-4 mb-4 text-xl font-semibold">Ajouter un rendez-vous</div>
+                    <div *ngIf="formStep1.invalid && formStep1.touched"   class="text-center error mt-4 mb-4">
+                        Veuillez remplir tous les champs.
+                    </div>
+                    <form [formGroup]="formStep1">
+                        <div class="input-group flex-wrap justify-center gap-4">
+                            <p-inputgroup class="custom-width">
+                                <p-select 
+                                    [filter]="true"
+                                    [virtualScroll]="true"
+                                    formControlName="car" 
+                                    [options]="cars" 
+                                    optionLabel="license_plate_number" 
+                                    placeholder="Voiture" />
+                            </p-inputgroup>
+
+                            <p-datePicker 
+                                formControlName="date" 
+                                [showTime]="true" 
+                                [hourFormat]="'24'" 
+                                placeholder="Date et une heure">
+                            </p-datePicker>
+
+                            <p-button (onClick)="activateCallback(2)" label="Suivant" icon="pi pi-arrow-right" iconPos="right" [disabled]="formStep1.invalid" />
+                        </div>
+                    </form>
+                </ng-template>
+            </p-step-panel>
+
+            <!-- Etape 2: Choisir les prestations -->
+            <p-step-panel [value]="2">
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="text-center mt-4 mb-4 text-xl font-semibold">Choisir les prestations</div>
+                    <form [formGroup]="formStep2">
+                        <div class="content">
+                            <div *ngFor="let column of columns">
+                                <div *ngFor="let item of column">
+                                    <div class="flex items-center">
+                                        <p-checkbox 
+                                            [value]="item._id" 
+                                            [binary]="true"
+                                            (onChange)="onCheckboxChange($event, item._id)">
+                                        </p-checkbox>
+                                        <label for="prestation" class="ml-2"> {{ item.name }} </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="footer-content flex pt-6 justify-between gap-4">
+                        <p-button (onClick)="activateCallback(1)" label="Retour" severity="secondary" icon="pi pi-arrow-left" />
+                        <p-button (onClick)="insertAppointment()" label="Valider" icon="pi pi-check" [disabled]="formStep2.invalid" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-panels>
+    </p-stepper>
+</div>
+<div class="space"></div>
+
+<p-dialog [(visible)]="isVisible" [modal]="true"  [closable]="true" [style]="{width: '400px'}">
+    <p-message [severity]="severity">{{ message }}</p-message>
+</p-dialog>

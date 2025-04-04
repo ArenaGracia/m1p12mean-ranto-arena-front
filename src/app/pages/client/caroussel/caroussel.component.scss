@@ -2,27 +2,47 @@ $color: #e94016;
 $btn-quote-color: #e94016;
 $btn-quote-hover-color: rgb(231, 36, 36);
 $btn-text-color: white;
+$big-font-size : 25px;
+$middle-font-size : 20px;
 
-.caroussel{
+.row {
     width: 100% !important;
-    height: 600px;
-    // background-color: red;
+    margin: 0;
+    height: 500px;
     background-image: url("/assets/images/caroussel.png");
     background-repeat: no-repeat;
     background-size: cover;
-    color: white;
+    color: $btn-text-color;
+    padding-bottom: 50px;
 
-    .caroussel-info{
-        padding-top: 200px;
-        float: right;
-        width: 500px;
-        text-align: right;
-        margin-right: 100px;
+    h2{
+        font-weight: bold;
     }
 
+    .caroussel-info {
+        padding-top: 150px;
+        height: 550px;
+        float: right;
+        margin-left: 45%;
+        width: 50%;
+        text-align: right;
 
+        @media (min-width: 1025px) {
+            text-align: right;
+        }
+
+        @media screen and (max-width: 1024px) {
+            float: none;
+            margin-left: 0;
+            width: 100%;
+            text-align: center;
+        }
+    }
 }
 
+.btn-logout {
+    background-color: $btn-quote-color;
+}
 
 .btn-quote {
     background-color: $btn-quote-color;
@@ -36,49 +56,55 @@ $btn-text-color: white;
     margin-left: 20px;
 }
 
-.btn-logout {
-    background-color: $btn-quote-color;
-}
-
-.expertise{
+.expertise {
     width: 100% !important;
     height: 350px;
     color: white;
     background-color: $color;
     margin-top: -20px;
     padding-top: 20px;
-    
-    h1{
+
+    h1 {
         margin-top: 20px;
         margin-left: 100px;
     }
 
-    p{
+    p {
         margin-top: 20px;
         margin-left: 100px;
         font-size: 14px;
         margin-top: -10px;
     }
-      
+
+    .text-center{
+        font-size: $big-font-size;
+    }
 }
 
 @media screen and (min-width: 128px) and (max-width: 1024px) {
+    .caroussel-info {
+        margin-left: 0;
+        float: left;
+        width: 100%;
+        text-align: center;
+    }
+
     .expertise {
-        h1, p{
+        h1,
+        p {
             margin-left: 50px;
         }
     }
 
-    .menu-icon{
+    .menu-icon {
         display: block;
-        color: red;
+        color: $color;
         font-size: 30px;
         padding-top: 0px;
     }
 
-    .mobile-menu{
+    .mobile-menu {
         right: 0;
         transition: 0.4s ease-in-out;
     }
 }
-
