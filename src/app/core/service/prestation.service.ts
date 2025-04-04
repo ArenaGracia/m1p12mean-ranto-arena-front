@@ -17,8 +17,8 @@ export class PrestationService {
         return this.http.get<Prestation[]>(`${this.apiUrl}`);
     } 
       
-    createPrestation(prestation: Prestation): Observable<Prestation> {
-        return this.http.post<Prestation>(this.apiUrl, prestation);
+    createPrestation(prestation: any, brands: any[]): Observable<Prestation> {
+        return this.http.post<any>(this.apiUrl, {prestation, brands});
     }
 
     updatePrestation(id: string, prestation: Prestation): Observable<Prestation> {
