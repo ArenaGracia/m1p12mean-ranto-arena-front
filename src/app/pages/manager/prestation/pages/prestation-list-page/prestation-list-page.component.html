@@ -31,9 +31,7 @@
 
 
 <p-dialog [(visible)]="showPrestationForm" [style]="{ width: '500px' }" header="Prestation Details" [modal]="true">
-    <ng-template #content>
-        <app-prestation-form [prestation]="newPrestation"  [messageService]="this.messageService" [confirmationService]="confirmationService"></app-prestation-form>
-    </ng-template>
+    <app-prestation-form [prestation]="newPrestation"  [messageService]="this.messageService" [confirmationService]="confirmationService"></app-prestation-form>
 </p-dialog>
 
 <p-toast />

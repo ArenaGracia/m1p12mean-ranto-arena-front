@@ -15,6 +15,10 @@ export class BrandService {
     return this.http.get<Brand[]>(this.apiUrl);
   }
 
+  getBrandsWithNoImage(): Observable<Brand[]> {
+    return this.http.get<Brand[]>(`${this.apiUrl}/noImage`);
+  }
+
   getBrandById(id: string): Observable<Brand> {
     return this.http.get<Brand>(`${this.apiUrl}/${id}`);
   }
