@@ -1,12 +1,26 @@
-<div class="layout-wrapper" [ngClass]="{ 'sidebar-hidden': isSidebarHidden }">
-  <app-header></app-header>
+<div class="layout-wrapper">
+  <!-- Header -->
+<app-header></app-header>
+
+<div class="layout-body">
   
-  <div class="layout-body">
-    <app-sidebar></app-sidebar>
-    
-    <div class="layout-main-container">
-      <router-outlet></router-outlet>
-      <app-footer></app-footer>
-    </div>
+  <!-- Overlay for mobile -->
+  <div 
+    class="sidebar-overlay" 
+    *ngIf="(layoutService.sidebarHidden$ | async) === false && isMobile"
+    (click)="layoutService.toggleSidebar()">
   </div>
+  <!-- Sidebar -->
+  <div 
+    class="sidebar"
+    [ngClass]="{ 'hidden': (layoutService.sidebarHidden$ | async) }">
+    <app-sidebar></app-sidebar>
+  </div>
+
+  <!-- Main content -->
+  <div class="layout-main-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
 </div>

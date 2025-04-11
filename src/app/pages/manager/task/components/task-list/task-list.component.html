@@ -1,35 +1,38 @@
 <h2>{{titre}}</h2>
 
-<div class="flex gap-3"*ngIf="!affectation">
-    <p-floatlabel variant="on" class="w-full" *ngIf="!mecanicienProfile">
-        <p-select inputId="Mecanicien" [options]="mecaniciens" optionLabel="name" optionValue="_id" [(ngModel)]="filters.userId" styleClass="w-full" />
-        <label for="Mecanicien">Mécanicien</label>
-    </p-floatlabel>
+<div style="overflow-x: auto;">
+    <div class="flex gap-3 w-full" *ngIf="!affectation" 
+         [ngStyle]="{ 'min-width': '70rem', 'overflow': 'hidden' }">
+        <p-floatlabel variant="on" class="w-full" *ngIf="!mecanicienProfile">
+            <p-select inputId="Mecanicien" [options]="mecaniciens" optionLabel="name" optionValue="_id" [(ngModel)]="filters.userId" styleClass="w-full" appendTo="body"/>
+            <label for="Mecanicien">Mécanicien</label>
+        </p-floatlabel>
 
-    <p-floatlabel variant="on" class="w-full">
-        <p-datepicker inputId="debut" [(ngModel)]="filters.startDate" showIcon iconDisplay="input" dateFormat="dd/mm/yy"/>
-        <label for="debut">Date début</label>
-    </p-floatlabel>
+        <p-floatlabel variant="on" class="w-full">
+            <p-datepicker inputId="debut" [(ngModel)]="filters.startDate" showIcon iconDisplay="input" dateFormat="dd/mm/yy"appendTo="body"/>
+            <label for="debut">Date début</label>
+        </p-floatlabel>
 
-    <p-floatlabel variant="on" class="w-full">
-        <p-datepicker inputId="fin" [(ngModel)]="filters.endDate" showIcon iconDisplay="input" dateFormat="dd/mm/yy"/>
-        <label for="fin">Date fin</label>
-    </p-floatlabel>
+        <p-floatlabel variant="on" class="w-full">
+            <p-datepicker inputId="fin" [(ngModel)]="filters.endDate" showIcon iconDisplay="input" dateFormat="dd/mm/yy"appendTo="body"/>
+            <label for="fin">Date fin</label>
+        </p-floatlabel>
 
-    <p-floatlabel variant="on" class="w-full">
-        <p-select inputId="Etat" [options]="states"  optionLabel="name" [(ngModel)]="filters.stateId" optionValue="_id" styleClass="w-full" />
-        <label for="Etat">État</label>
-    </p-floatlabel>
+        <p-floatlabel variant="on" class="w-full">
+            <p-select inputId="Etat" [options]="states"  optionLabel="name" [(ngModel)]="filters.stateId" optionValue="_id" styleClass="w-full" appendTo="body"/>
+            <label for="Etat">État</label>
+        </p-floatlabel>
 
-    <p-floatlabel variant="on" class="w-full">
-        <p-select inputId="Category" [options]="categories" optionLabel="name" [(ngModel)]="filters.categoryId" optionValue="_id" styleClass="w-full" />
-        <label for="Category">Catégorie</label>
-    </p-floatlabel>
-    
-    <p-button icon="pi pi-filter" (click)="applyFilters()"/>
+        <p-floatlabel variant="on" class="w-full">
+            <p-select inputId="Category" [options]="categories" optionLabel="name" [(ngModel)]="filters.categoryId" optionValue="_id" styleClass="w-full" appendTo="body"/>
+            <label for="Category">Catégorie</label>
+        </p-floatlabel>
+        
+        <p-button icon="pi pi-filter" (click)="applyFilters()"/>
+    </div>
 </div>            
 @if(tasks.length > 0) {
-<p-table [value]="tasks">
+<p-table [value]="tasks" [tableStyle]="{ 'min-width': '70rem' }">
         <ng-template pTemplate="header">
             <tr>
                 <th>Prestation</th>

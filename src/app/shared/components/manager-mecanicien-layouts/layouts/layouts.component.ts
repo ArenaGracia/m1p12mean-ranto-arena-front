@@ -16,12 +16,18 @@ import { LayoutService } from '../layout.service';
   templateUrl: './layouts.component.html',
   styleUrl: './layouts.component.scss'
 })
-export class LayoutsComponent {
-  isSidebarHidden = false;
+export class LayoutsComponent {isMobile = false;
 
-  constructor(private layoutService: LayoutService) {
-    this.layoutService.sidebarHidden$.subscribe(
-      hidden => this.isSidebarHidden = hidden
-    );
+  constructor(public layoutService: LayoutService) {}
+
+  ngOnInit() {
+    this.checkScreenSize();
+    window.addEventListener('resize', () => this.checkScreenSize());
   }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 768;
+    this.layoutService.setSidebarHidden(this.isMobile);
+  }
+
 }
