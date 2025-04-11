@@ -74,6 +74,11 @@ export const items: MenuItem[] = [
                 icon: 'pi pi-list',
                 url: '/manager/prestation',
             },
+            {
+                label: 'Articles',
+                icon: 'pi pi-list',
+                url: '/manager/article',
+            },
         ]
     },
     {
@@ -86,6 +91,6 @@ export const items: MenuItem[] = [
                 url: '/manager/performances',
             },
         ]
-    }
+    },
 ];
 
