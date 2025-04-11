@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 export class PaginationComponent { 
   @Input() totalRecords: number = 0;
   @Input() rows: number = 10;
+  @Input() first: number = 0;
   @Input() showCurrentPageReport: boolean = true;
   @Input() options: { label: string; value: number }[] = [
     { label: '10', value: 10 },
@@ -27,15 +28,12 @@ export class PaginationComponent {
 
   @Output() pageChange = new EventEmitter<{ first: number; rows: number }>();
 
-  first: number = 0;
+  
 
   onPageChange(event: { first?: number; rows?: number }) {
-    const firstValue = event.first ?? 0;  // Si 'first' est undefined, on lui assigne 0
-    const rowsValue = event.rows ?? 10;   // Si 'rows' est undefined, on lui assigne 10
-
-    this.first = firstValue;
-    this.rows = rowsValue;
-    this.pageChange.emit({first : firstValue, rows : rowsValue});
+    const firstValue = event.first ?? 0;
+    const rowsValue = event.rows ?? this.rows;
+    this.pageChange.emit({ first: firstValue, rows: rowsValue });
   }
 
 }

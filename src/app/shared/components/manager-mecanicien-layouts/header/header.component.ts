@@ -21,7 +21,7 @@ export class HeaderComponent {
     imageUrl: string = '/src/assets/images/car-logo.jpg';
     user!: any;
     
-    constructor(private authService: AuthService, private router: Router, private layoutService: LayoutService) {}
+    constructor(private authService: AuthService, private router: Router, public layoutService: LayoutService) {}
 
     ngOnInit() {
         this.user = this.authService.getUserInfo();

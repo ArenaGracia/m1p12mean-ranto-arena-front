@@ -1,0 +1,64 @@
+<div class="p-fluid flex flex-column gap-3">
+    <img [src]="article.image" [alt]="article.image" class=" m-auto pb-4" width="250px" *ngIf="article.image" />
+    <input type="file" (change)="onFileSelected($event)" />
+
+    <div class="w-full mb-4">
+        <p-floatlabel variant="on">
+            <input
+                id="name"
+                type="text"
+                pInputText
+                class="w-full"
+                [(ngModel)]="article.name"
+            />
+            <label for="name">Nom</label>
+        </p-floatlabel>
+    </div>
+    
+    <div class="w-full mb-4">
+        <p-floatlabel variant="on">
+            <input
+                id="price"
+                type="number"
+                pInputText
+                class="w-full"
+                [(ngModel)]="article.price"
+            />
+            <label for="price">Prix</label>
+        </p-floatlabel>
+    </div>
+    
+    <div class="w-full mb-4">
+        <p-floatlabel variant="on">
+            <p-select
+                class="w-full"
+                [options]="categories"
+                optionLabel="name"
+                optionValue="_id"
+                [(ngModel)]="article.category_article._id"
+                inputId="category"
+                appendTo="body"
+                placeholder="Sélectionner une catégorie"
+            ></p-select>
+            <label for="category">Catégorie</label>
+        </p-floatlabel>
+    </div>
+    
+</div>
+
+
+<div class="flex justify-content-end">
+    <button
+        pButton
+        label="Annuler"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="closeDialog()"
+    ></button>
+    <button
+        pButton
+        label="Enregistrer"
+        icon="pi pi-check"
+        (click)="saveArticle()"
+    ></button>
+</div>

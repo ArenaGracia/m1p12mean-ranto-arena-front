@@ -1,0 +1,51 @@
+<p-card header="Articles">
+    <div class="flex justify-content-end">
+        <p-button icon="pi pi-plus" label="ajouter" (onClick)="openNew()"></p-button>
+    </div>
+    @if (isLoading) {
+        <app-loading-spinner [height]="'15cm'"></app-loading-spinner>
+    } @else if (articles.length == 0) { 
+        <app-message-block></app-message-block>
+    } @else {
+        <div class="article-list">
+            <div class="article-item" *ngFor="let article of articles">
+                <img [src]="article.image" alt="Image" class="article-image" />
+                <div class="article-info">
+                    <span class="article-category">{{ article.category_article.name }}</span>
+                    <h3 class="article-name">{{ article.name }}</h3>
+                </div>
+                <div class="article-price">{{ article.price | montant }}</div>
+                <p-button icon="pi pi-pencil" outlined="true" text="true" (onClick)="editArticle(article)" />
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <app-pagination 
+            [totalRecords]="totalRecords"
+            [rows]="rows"
+            [first]="first"
+            (pageChange)="onPaginationChange($event)">
+        </app-pagination>
+    }
+</p-card>
+
+
+<p-dialog
+    [header]="isEdit ? 'Modifier un article' : 'Ajouter un article'"
+    [(visible)]="articleDialog"
+    [modal]="true"
+    [style]="{ width: '500px' }"
+    [closable]="false"
+    (onHide)="hideDialog()"
+>
+    <app-article-form
+        [visible]="articleDialog"
+        [article]="selectedArticle"
+        [messageService]="messageService"
+        [isEdit]="isEdit"
+        (onClose)="hideDialog()"
+    ></app-article-form>
+</p-dialog>
+
+
+<p-toast></p-toast>

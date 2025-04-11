@@ -4,13 +4,13 @@
             <div class="flex items-center gap-2">
                 <img src="assets/images/car-logo.jpg" alt="logo" style="width: 6rem; margin-left: 1rem">
                 <p class="garage-text hidden md:block">Garage</p>
-                <p-button (click)="toggleSidebar()" class="toggle-button ml-4 mt-2" severity="primary"  [text]="true" icon="pi pi-bars"/>
+                <p-button (click)="layoutService.toggleSidebar()" class="toggle-button ml-4 mt-2" severity="primary"  [text]="true" icon="pi pi-bars"/>
             </div>
         </ng-template>
 
         <ng-template #end>
             <div class="user-profile mr-3">
-                <i class="pi pi-user"></i>
+                <i class="pi pi-user hidden lg:inline"></i>
                 <span class="user-name hidden lg:inline">{{user.name}} {{user.firstName}}</span>
                 <span class="user-role hidden xl:inline">{{user.profile}}</span>
             </div>

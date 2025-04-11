@@ -13,3 +13,17 @@ $primary-dark: #e94016;
   border-color: $primary-dark !important;
   color: white !important;
 }
+
+
+:host ::ng-deep .fc-col-header-cell-cushion,
+:host ::ng-deep .fc-daygrid-day-number
+{
+  text-decoration: none;
+  color: black;
+}
+
+// :host ::ng-deep .fc-event, 
+// :host ::ng-deep .fc-daygrid-event-dot 
+// {
+//   color: $primary-color;
+// }
