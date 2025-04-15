@@ -1,4 +1,4 @@
-@if (!isLoading) {
+@if (!isLoading && quote) {
     <p-card class="surface-section px-4 py-5 md:px-6 lg:px-8">
 
         <!-- Details du devis -->
@@ -9,59 +9,81 @@
                 <div class="flex align-items-center text-700 flex-wrap">
                     <div class="mr-5 flex align-items-center mt-3">
                         <i class="pi pi-user mr-2"></i>
-                        <span>{{quote?.appointment?.user?.first_name}} {{quote?.appointment?.user?.name}}</span>
+                        <span>{{quote.appointment.user.first_name}} {{quote.appointment.user.name}}</span>
                     </div>
                     <div class="mr-5 flex align-items-center mt-3">
                         <i class="pi pi-envelope mr-2"></i>
-                        <span>{{quote?.appointment?.user?.email}}</span>
+                        <span>{{quote.appointment.user.email}}</span>
                     </div>
                     
                     <div class="mr-5 flex align-items-center mt-3">
                         <i class="pi pi-car mr-2"></i>
-                        <span>{{quote.appointment?.car.license_plate_number }} </span>
+                        <span>{{quote.appointment.car.license_plate_number }} </span>
                     </div>
 
                     <div class="mr-5 flex align-items-center mt-3">
                         <i class="pi pi-clock mr-2"></i>
                         <span>
-                            {{quote?.appointment?.time_start | date : "d MMMM yyyy HH:mm" }} 
-                            <span *ngIf="quote?.appointment?.time_end">à {{quote?.appointment?.time_end | date : "d MMMM yyyy HH:mm" }}</span>
+                            {{quote.appointment.time_start | date : "d MMMM yyyy HH:mm" }} 
+                            <span *ngIf="quote.appointment.time_end">à {{quote.appointment.time_end | date : "d MMMM yyyy HH:mm" }}</span>
                         </span>
                     </div>
-                    <div *ngIf="quote?.discount != 0" class="flex align-items-center mt-3">
+                    <div *ngIf="quote.discount != 0" class="flex align-items-center mt-3">
                         <i class="pi pi-dollar mr-2"></i>
-                        <span>Remise : {{quote?.discount}} %</span>
+                        <span>Remise : {{quote.discount}} %</span>
                     </div>
-                </div>
-
-                <!-- Details du payement -->
-
-                <div class="flex align-items-center text-700 flex-wrap mt-3" *ngIf="quote?.quote_state?.value == 2 || quote?.quote_state?.value == 3">
-                    <div class="mr-5 flex align-items-center ">
-                        <div>Total montant payé :</div>
-                        <span>{{(paymentSummary?.total_paid || 0)  | montant}}</span>
-                    </div>
-                    <div class="mr-5 flex align-items-center ">
-                        <div>Montant restant à payer :</div>
-                        <span>{{paymentSummary?.amount_remaining | montant}}</span>
-                    </div>
-                    <div class=" lg:mt-0">
-                        <button pButton pRipple label="Procéder au payement" class="p-button-outlined mr-2" icon="pi pi-money-bill" (click)="showPaymentDialog =true" *ngIf="paymentSummary?.amount_remaining != 0"></button>
-                    </div>
-                </div>
-                <!-- etat terminé -->
-                <div class="mt-3" *ngIf="quote?.quote_state?.value != 1 && quote?.quote_state?.value != 4">
-                    @if(quote?.appointment?.appointment_state.value != 3) {
-                        <button pButton pRipple label="Terminer Rendez-vous" severity="success" icon="pi pi-sign-out" (click)="confirm('terminer')" [raised]="true" [disabled]="paymentSummary?.amount_remaining != 0" ></button>
-                    } @else {
-                        <div class="text-success"><i class="pi pi-check"></i> Rendez-vous Terminé</div>
-                    }
                 </div>
             </div>
-            <div class="flex gap-3 mt-3 lg:mt-0" *ngIf="quote?.quote_state?.value == 1" class="flex gap-3">
-                <button pButton pRipple [label]="quote?.discount != 0 ? 'Modifier Remise' : 'Ajouter Remise'"  class="p-button-outlined" [icon]="quote?.discount != 0 ? 'pi pi-pencil' : 'pi pi-plus'" (click)="addDiscountVisible = true" ></button>
-                <button pButton pRipple label="Suggérer une autre Date" class="p-button-outlined" icon="pi pi-clock" (click)="showUpdateDate =true"></button>
-                <button pButton pRipple label="Valider" icon="pi pi-check" (click)="confirm('validation')" [raised]="true" ></button>
+
+            <!-- Boutons Avant validation -->
+
+            <div *ngIf="is('nouveau')" class="mt-3">
+                <div class="flex flex-wrap gap-3 w-full">
+                    <button pButton pRipple [label]="quote.discount != 0 ? 'Modifier Remise' : 'Ajouter Remise'"
+                        class="p-button-outlined w-full lg:flex-1"
+                        [icon]="quote.discount != 0 ? 'pi pi-pencil' : 'pi pi-plus'"
+                        (click)="addDiscountVisible = true">
+                    </button>
+                
+                    <button pButton pRipple label="Suggérer une autre Date"
+                        class="p-button-outlined w-full lg:flex-1"
+                        icon="pi pi-clock"
+                        (click)="showUpdateDate = true">
+                    </button>
+                
+                    <button pButton pRipple label="Valider"
+                        icon="pi pi-check"
+                        class="w-full lg:flex-1"
+                        [raised]="true"
+                        (click)="confirm('validation')">
+                    </button>
+                </div>
+            </div>
+  
+            <!-- Details du payement -->
+
+            <div class="flex align-items-center text-700 flex-wrap mt-3" *ngIf="is('enCours') || is('valide')">
+                <div class="mr-5 flex align-items-center ">
+                    <div>Total montant payé :</div>
+                    <span>{{(paymentSummary?.total_paid || 0)  | montant}}</span>
+                </div>
+                <div class="mr-5 flex align-items-center ">
+                    <div>Montant restant à payer :</div>
+                    <span>{{paymentSummary?.amount_remaining | montant}}</span>
+                </div>
+                <div class=" lg:mt-0">
+                    <button pButton pRipple label="Procéder au payement" class="p-button-outlined mr-2" icon="pi pi-money-bill" (click)="showPaymentDialog =true" *ngIf="paymentSummary?.amount_remaining != 0"></button>
+                </div>
+            </div>
+
+            <!-- etat terminé -->
+
+            <div class="mt-3" *ngIf="isNot('nouveau') && isNot('rejete')">
+                @if(quote.appointment.appointment_state.value != 3) {
+                    <button pButton pRipple label="Terminer Rendez-vous" severity="success" icon="pi pi-sign-out" (click)="confirm('terminer')" [raised]="true" [disabled]="paymentSummary?.amount_remaining != 0" ></button>
+                } @else {
+                    <div class="text-success"><i class="pi pi-check"></i> Rendez-vous Terminé</div>
+                }
             </div>
 
         </div>
@@ -70,10 +92,10 @@
     <!-- Liste des Details-Devis -->
 
     <p-card header="Prestation Incluses" class=" overflow-auto">
-        <app-quote-details-list [quoteDetails]="this.quote?.quote_details"></app-quote-details-list>
+        <app-quote-details-list [quoteDetails]="this.quote.quote_details"></app-quote-details-list>
         <div class="row m-3">
-            <div class="d-flex justify-content-end font-bold">Prix Total {{quote?.total_price | montant}}</div>
-            <div class="d-flex justify-content-end font-bold">Prix Avec Remise {{quote?.final_price | montant}}</div>
+            <div class="d-flex justify-content-end font-bold">Prix Total {{quote.total_price | montant}}</div>
+            <div class="d-flex justify-content-end font-bold">Prix Avec Remise {{quote.final_price | montant}}</div>
         </div>
     </p-card>
 } @else {
@@ -88,9 +110,9 @@
         <label for="username" class="font-semibold w-24">Remise</label>
         <p-inputnumber id="username" [(ngModel)]="discount" mode="decimal"  prefix="%" class="flex-auto" />
     </div>
-    <div class="flex justify-end gap-2">
-        <p-button label="Annuler" severity="secondary" (click)="addDiscountVisible = false" />
-        <p-button label="Enregistrer" [disabled]="(discount == 0)" (click)="confirm('discount')" />
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Annuler" icon="pi pi-times" text="true" (click)="addDiscountVisible = false" />
+        <p-button label="Enregistrer" icon="pi pi-check" [disabled]="(discount == 0)" (click)="confirm('discount')" />
     </div>
 </p-dialog>
 
@@ -103,8 +125,8 @@
         <p-datepicker [(ngModel)]="this.newDate" [showTime]="true" [hourFormat]="'24'" inputId="on_label" showIcon iconDisplay="input" dateFormat="dd/mm/yy" appendTo="body" />
         <label for="on_label">Nouvelle Date</label>
     </p-floatlabel>
-    <div class="flex justify-end gap-2">
-        <p-button label="Annuler" severity="secondary" (click)="showUpdateDate = false" />
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Annuler" icon="pi pi-times" text="true" (click)="showUpdateDate = false" />
         <p-button label="Enregistrer" [disabled]="(this.quote?.appointment?.time_start == this.newDate)" (click)="confirm('newDate')" />
     </div>
 </p-dialog>

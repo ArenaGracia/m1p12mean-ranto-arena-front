@@ -4,15 +4,17 @@ import { CardModule } from 'primeng/card';
 import { Task } from '../../../../../shared/models/Task';
 import { TaskService } from '../../../../../core/service/task.service';
 import { TaskListComponent } from '../../components/task-list/task-list.component';
+import { LoadingSpinnerComponent } from "../../../../../shared/components/loading-spinner/loading-spinner.component";
 
 @Component({
     selector: 'app-task-list-page',
     standalone: true,
     imports: [
-        CommonModule,
-        CardModule,
-        TaskListComponent
-    ],
+    CommonModule,
+    CardModule,
+    TaskListComponent,
+    LoadingSpinnerComponent
+],
     templateUrl: './task-list-page.component.html',
 })
 export class TaskListPageComponent { 
@@ -20,6 +22,8 @@ export class TaskListPageComponent {
     first = 0;
     rows = 10;
     filters: any = {};
+    totalRecords: number = 0;
+    isLoading: boolean = true;
 
     constructor(private taskService: TaskService) {}
 
@@ -28,9 +32,12 @@ export class TaskListPageComponent {
     }
 
     getTasks() {
-        this.taskService.getAllTasks(this.first, this.rows, this.filters).subscribe({
-            next: (tasks: any) => {
-                this.tasks = tasks;
+        const page = Math.floor(this.first / this.rows) + 1;
+        this.taskService.getAllTasks(page, this.rows, this.filters).subscribe({
+            next: (data: any) => {
+                this.tasks = data.tasks;
+                this.totalRecords = data.totalRecords;
+                this.isLoading = false;
             },
             error: (error) => {
                 console.error('Error getting tasks:', error);

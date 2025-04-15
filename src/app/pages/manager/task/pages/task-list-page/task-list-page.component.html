@@ -1,9 +1,14 @@
 
 <p-card>
-    <app-task-list
-        [titre]="'Suivie des tâches'"
-        [tasks]="tasks"
-        (filtersChanged)="onFiltersChanged($event)"
-        (paginationChange)="onPaginationChange($event)"
-    ></app-task-list>
+    @if (isLoading) {
+        <app-loading-spinner></app-loading-spinner>
+    } @else {
+        <app-task-list
+            [titre]="'Suivie des tâches'"
+            [tasks]="tasks"
+            [totalRecords]="totalRecords"
+            (filtersChanged)="onFiltersChanged($event)"
+            (paginationChange)="onPaginationChange($event)"
+        ></app-task-list>
+    }
 </p-card>

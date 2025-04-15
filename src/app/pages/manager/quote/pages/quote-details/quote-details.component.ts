@@ -10,10 +10,10 @@ import { LoadingSpinnerComponent } from '../../../../../shared/components/loadin
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { Dialog, DialogModule } from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { FloatLabel } from 'primeng/floatlabel';
 import { MontantPipe } from "../../../../../shared/pipes/montant.pipe";
@@ -22,6 +22,7 @@ import { QuoteDetailsListComponent } from '../../components/quote-details-list/q
 import { PaymentFormComponent } from '../../components/payment-form/payment-form.component';
 import { PaymentService } from '../../../../../core/service/payment.service';
 import { AppointmentService } from '../../../../../core/service/appointment.service';
+import { redirectToErrorPage, showErrorMessageDialog, showInfoMessageDialog, showSuccessMessageDialog } from '../../../../../core/service/util.service';
 
 @Component({
   selector: 'app-quote-details',
@@ -46,7 +47,7 @@ import { AppointmentService } from '../../../../../core/service/appointment.serv
     PaymentFormComponent
 ],
   providers: [ MessageService, ConfirmationService],
-  templateUrl: './quote-details.component.html'
+  templateUrl: './quote-details.component.html',
 })
 export class QuoteDetailsComponent { 
 	quote: any;
@@ -68,7 +69,6 @@ export class QuoteDetailsComponent {
 		public confirmationService: ConfirmationService,
 		public messageService: MessageService,
         public emailService: EmailService,
-        private fb: FormBuilder
 	) {}
 
     ngOnInit() {
@@ -93,7 +93,7 @@ export class QuoteDetailsComponent {
                 }
                 this.newDate = data.appointment.time_start;
 			}, error : (error) => {
-				this.router.navigate([`manager/error`, error.error.message]);
+				redirectToErrorPage(this.router, error.message);
 			}
 		});
 	}
@@ -104,7 +104,7 @@ export class QuoteDetailsComponent {
                 this.paymentSummary = summary;
             },
             error: (error: any) => {
-                this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
+                showErrorMessageDialog(this.messageService, error.error.message);
             }
         });
     }
@@ -113,10 +113,10 @@ export class QuoteDetailsComponent {
 		this.quoteService.validateQuote(this.quote._id).subscribe({
 			next : (quote: any) => {
 				this.quote.quote_state_id = quote.quote_state_id;
-				this.messageService.add({ severity: 'success', summary: 'Validation terminé', detail: 'Le devis a été validé avec succès', life: 3000 });
+				showSuccessMessageDialog(this.messageService, 'Le devis a été validé avec succès', 'Validation terminée');
 			}, 
 			error : (error:any) => {
-				this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
+                showErrorMessageDialog(this.messageService, error.error.message);
 			}
 		});
 	}
@@ -125,10 +125,10 @@ export class QuoteDetailsComponent {
         this.quoteService.updateDiscount(this.quote._id, this.discount).subscribe({
             next: () => {
                 this.quote.discount = this.discount;
-				this.messageService.add({ severity: 'info', summary: 'Remise Mise à jour', detail: 'La remise a été mise à jour', life: 3000 });
+                showInfoMessageDialog(this.messageService, 'La remise a été mise à jour', 'Mise à jour de la remise');
             },
             error: (error:any) => {
-				this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
+                showErrorMessageDialog(this.messageService, error.error.message);
             }
         });
     }
@@ -136,62 +136,88 @@ export class QuoteDetailsComponent {
     SendEmailConfirmationNewDate() {
         this.emailService.sendEmailConfirmation(this.quote.appointment.user.email, this.newDate, this.quote.appointment.time_start, this.quote._id).subscribe({
             next: () => {
-                this.messageService.add({ severity: 'info', summary: 'Email envoyé', detail: 'Un email de confirmation a été envoyé', life: 3000 });
+                showInfoMessageDialog(this.messageService, 'Un email de confirmation a été envoyé', 'Email envoyé');
             },
             error: (error:any) => {
-                this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
+                showErrorMessageDialog(this.messageService, error.error.message);
             }
         });
     }
 
-    dialogHeader: string = '';
-    dialogMessage: string = '';
-	confirm(type:string) {
-        if (type === 'validation') {
-            this.dialogHeader = 'Confirmation de la validation';
-            this.dialogMessage = 'Voulez-vous vraiment valider ce devis.';
-        } else if (type === 'discount') {
-            this.dialogHeader = 'Confirmation de votre remise';
-            this.dialogMessage = 'Une remise de ' + this.discount + ' % pour cette devise';
-        } else if (type === 'newDate') {
-            this.dialogHeader = 'Confirmation de cette nouvelle date de rendez-vous';
-            this.dialogMessage = 'Le rendez-vous aura lieu à cette date et un email sera envoyé';
-        } else if (type === 'terminer') {
-            this.dialogHeader = 'Confirmation';
-            this.dialogMessage = 'Voulez-vous terminer cet rendez-vous ?';
-        }
+    EndAppointment() {
+        this.appointmentService.endAppointment(this.quote.appointment._id, this.quote._id, this.paymentSummary?.amount_remaining).subscribe({
+            next : () => {
+                if (this.quote?.appointment?.appointment_state.value !== undefined) { this.quote.appointment.appointment_state.value = 3; }
+                showInfoMessageDialog(this.messageService, 'Rendez-vous marqué comme terminé', 'Términé');
+            }, error : (error: any) => {
+                showErrorMessageDialog(this.messageService, error.error.message);
+            }
+        });
+    }
+
+	confirm(type: string) {
+        const configMap: Record<string, { header: string; message: string; action: () => void }> = {
+            validation: {
+                header: 'Confirmation de la validation',
+                message: 'Voulez-vous vraiment valider ce devis.',
+                action: () => this.validateQuote()
+            },
+            discount: {
+                header: 'Confirmation de votre remise',
+                message: `Une remise de ${this.discount} % pour cette devise`,
+                action: () => {
+                    this.UpdateDiscount();
+                    this.addDiscountVisible = false;
+                }
+            },
+            newDate: {
+                header: 'Confirmation de cette nouvelle date de rendez-vous',
+                message: 'Le rendez-vous aura lieu à cette date et un email sera envoyé',
+                action: () => {
+                    this.showUpdateDate = false;
+                    this.SendEmailConfirmationNewDate();
+                }
+            },
+            terminer: {
+                header: 'Confirmation',
+                message: 'Voulez-vous terminer cet rendez-vous ?',
+                action: () => this.EndAppointment()
+            }
+        };
+
+        const config = configMap[type];
+        if (!config) return;
+
         this.confirmationService.confirm({
-            header: this.dialogHeader,
-            message: this.dialogMessage,
+            header: config.header,
+            message: config.message,
             icon: 'pi pi-exclamation-circle',
             rejectButtonProps: { label: 'Annuler', icon: 'pi pi-times', outlined: true, size: 'small' },
             acceptButtonProps: { label: 'Valider', icon: 'pi pi-check', size: 'small' },
-            accept: () => {
-                if (type === 'validation') {
-                    this.validateQuote();
-                } else if (type === 'discount') {
-                    this.UpdateDiscount();
-                    this.addDiscountVisible = false;
-                } else if (type === 'newDate') {
-                    this.showUpdateDate = false;
-                    this.SendEmailConfirmationNewDate();
-                } else if (type === 'terminer') {
-                    this.appointmentService.endAppointment(this.quote.appointment._id, this.quote._id, this.paymentSummary?.amount_remaining).subscribe({
-                        next : () => {
-                            if (this.quote?.appointment?.appointment_state.value !== undefined) { this.quote.appointment.appointment_state.value = 3; }
-                            this.messageService.add({ severity: 'info', summary: 'Términé', detail: 'Rendez-vous marqué comme terminé', life: 3000 });
-                        }, error : (error: any) => {
-                            this.messageService.add({ severity: 'error', summary: 'Une erreur est survenue', detail: error.error.message, life: 3000 });
-                        }
-                    });
-                }
-            },
-            reject: () => { }
+            accept: config.action,
+            reject: () => {}
         });
     }
     
     onPaymentSaved(payment: any) {
         this.getPaymentSummary(this.quote?._id);
         this.showPaymentDialog = false;
+    }
+
+    // pour la vérification des etats
+    quoteStates = {
+        nouveau: 1,
+        enCours: 2,
+        valide: 3,
+        rejete: 4,
+        paye: 5
+    };
+    
+    is(state: keyof typeof this.quoteStates): boolean {
+        return this.quote?.quote_state?.value === this.quoteStates[state];
+    }
+
+    isNot(state: keyof typeof this.quoteStates): boolean {
+        return !this.is(state);
     }
 }

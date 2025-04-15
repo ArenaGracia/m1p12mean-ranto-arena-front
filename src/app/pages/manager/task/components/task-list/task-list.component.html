@@ -28,7 +28,8 @@
             <label for="Category">Catégorie</label>
         </p-floatlabel>
         
-        <p-button icon="pi pi-filter" (click)="applyFilters()"/>
+        <p-button icon="pi pi-filter" (click)="applyFilters()" [disabled]="!isFilterActive()"/>
+        <p-button icon="pi pi-filter-slash" severity="secondary" (onClick)="resetFilter()" [disabled]="!isFilterActive()"/>
     </div>
 </div>            
 @if(tasks.length > 0) {
@@ -60,7 +61,12 @@
                 } @else if (!affectation && !mecanicienProfile) {
                     <td *ngIf="task.user">{{ task.user.name }} {{ task.user.first_name }}</td>
                     <td *ngIf="!task.user">Aucun</td>
-                    <td *ngIf="task.user">{{ task.task_state.name }}</td>
+                    <td *ngIf="task.user">
+                        <p-tag 
+                            [severity]="getSeverity(task.task_state.severity)" 
+                            [value]="task.task_state.name">
+                        </p-tag>
+                    </td>
                     <td *ngIf="!task.user">Non affectée</td>
                 } @else if (mecanicienProfile) {
                     @if(task.task_state.value == 3) {
@@ -77,8 +83,9 @@
 }
 
 <app-pagination
-    [totalRecords]="tasks.length"
-    [rows]="rows" (pageChange)="onChildPageChange($event)"
+    [totalRecords]="totalRecords"
+    [rows]="rows" 
+    (pageChange)="onChildPageChange($event)"
 ></app-pagination>
 
 
@@ -87,7 +94,7 @@
     <div class="flex items-center gap-4 mb-4">
         <p-select [options]="mecaniciens" [(ngModel)]="selectedMecanicien" optionLabel="first_name" placeholder="Selectionner Un Mécanicien" class="w-full md:w-56" appendTo="body" />
     </div>
-    <div class="flex justify-end gap-2">
+    <div class="flex justify-content-end gap-2">
         <p-button label="Annuler" severity="secondary" (click)="closeDialog()" />
         <p-button label="Affecter" (click)="confirmAffectation($event)" />
     </div>

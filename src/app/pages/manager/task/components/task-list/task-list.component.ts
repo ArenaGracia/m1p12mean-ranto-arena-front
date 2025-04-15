@@ -8,6 +8,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
 import { Mecanicien } from '../../../../../shared/models/Mecanicien';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../../../core/service/user.service';
@@ -47,13 +48,15 @@ import { InputNumberModule } from 'primeng/inputnumber';
     InputNumberModule,
     FloatLabel,
     DatePicker,
-    PopoverModule
+    PopoverModule,
+    TagModule
   ],
   templateUrl: './task-list.component.html',
 })
 export class TaskListComponent {
     @Input() titre: string = "Tâches";
     @Input() rows: number = 10;
+    @Input() totalRecords: number = 0;
     @Input() tasks: Task[] = [];
     @Input() affectation: boolean = false;
     @Input() mecanicienProfile: boolean = false;
@@ -172,5 +175,25 @@ export class TaskListComponent {
     // à chaque changement du filtre
     applyFilters() {
         this.filtersChanged.emit(this.filters); // Envoie les filtres au parent
+    }
+
+    getSeverity(severity: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' {
+        const allowed = ['success', 'secondary', 'info', 'warn', 'danger', 'contrast'];
+        return allowed.includes(severity) ? severity as any : 'secondary';
+    }
+          
+    isFilterActive(): boolean {
+        return Object.values(this.filters).some(value => value !== null && value !== '');
+    }
+
+    resetFilter () {
+        this.filters = {
+            userId: null,
+            startDate: null,
+            endDate: null,
+            stateId: null,
+            categoryId: null
+        };
+        this.applyFilters();
     }
 }

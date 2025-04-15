@@ -18,6 +18,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   styleUrl: 'loading-spinner.component.scss',
 })
 export class LoadingSpinnerComponent { 
-  @Input() height: string = '5 cm'; 
+  @Input() height: string = '15cm'; 
   @Input() class: string = '';
 }

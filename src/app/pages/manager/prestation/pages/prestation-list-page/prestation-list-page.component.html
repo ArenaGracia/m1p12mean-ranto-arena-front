@@ -8,7 +8,7 @@
         </ng-template>
     </p-toolbar>
     @if (isPrestationLoagin == true) {
-        <app-loading-spinner></app-loading-spinner>
+        <app-loading-spinner [height]="'15cm'"></app-loading-spinner>
     } @else {
         <app-prestation-list 
             [prestations]="prestations" 

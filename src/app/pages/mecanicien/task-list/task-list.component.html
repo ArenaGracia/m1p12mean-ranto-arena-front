@@ -1,14 +1,21 @@
 
 <p-card>
-  <app-task-list
-      [titre]="'Vos tâches'"
-      [tasks]="tasks"
+  @if(!isLoading) {
+
+    <app-task-list
+    [titre]="'Vos tâches'"
+    [tasks]="tasks"
+      [totalRecords]="totalRecords"
       [affectation]="false"
       [messageService]="messageService"
       [mecanicienProfile]="true"
       (filtersChanged)="onFiltersChanged($event)"
       (paginationChange)="onPaginationChange($event)"
   ></app-task-list>
+  
+  } @else {
+    <app-loading-spinner></app-loading-spinner>
+  }
 </p-card>
 
 <p-toast/>
